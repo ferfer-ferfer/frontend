@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>profile user</title>
+        <link rel="website icon" href="icons/Logo.png">
+        <link rel="stylesheet" href="styles/profil-user.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+    </head>
+    <body >
+        <div class="profile-container zoom-in zoom-delay-1">
+            <div class="user-info  zoom-in zoom-delay-2 ">
+             <div class="right">
+                <div class="user-img-container">
+                   <img src="image/profil.jpg"class="user-img zoom-in zoom-delay-3" id="userImg">
+                  <div class="pen" id="editProfilImg"><i class="fa-solid fa-pen"></i></div>
+                  <input type="file"id="uploadImg"style="display:none;"accept="image/*">
+                </div>
+                <div class="user-rating zoom-in zoom-delay-4">
+                    <div class="rating-number">4.5</div>
+                    <div class="rating-stars">
+                      <i class="fas fa-star " data-star="1"></i>
+                      <i class="fas fa-star " data-star="2"></i>
+                      <i class="fas fa-star " data-star="3"></i>
+                      <i class="fas fa-star " data-star="4"></i>
+                      <i class="fas fa-star " data-star="5"></i>
+                    </div>
+                  </div>
+                  
+            
+             </div>
+                <div class="left">
+                    <div class="profile-header">
+                    <div class="profile-info">
+                      <h3 id="userRealName" >  Name: </h3>
+                       <h3 id="userName">  User name: </h3>
+                       <h3 id="userAge">  Age: </h3>
+                       <h3 id="userLocation"><i class="fa-solid fa-location-dot"></i>  Location </h3>
+                    </div>
+                    <div class="edit-profile">
+                      
+                        <button id="editProfileBtn" class="edit-btn" onclick="openModal()"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+                        
+                    </div>
+                    </div>
+                </div> 
+            </div>
+            <hr class="section-divider"/>
+            <div class="about zoom-in zoom-delay-4">
+                <h2>About</h2>
+                <p id="userAbout">  loading....</p>
+            </div>
+
+            <div class="contact-icons">
+                <a href=""class="icon-discord" id=""><i class="fa-brands fa-discord"></i></a>
+                <a href=""class="icon-telegram"><i class="fa-brands fa-telegram"></i></a>
+                <a href=""class="icon-gmail"><i class="fa-solid fa-envelope"></i></a>
+            </div>
+        </div>
+            </div>
+            
+           
+
+        <div class="section-row">
+             <!---teaching box-->
+         <div class="section-box zoom-in zoom-delay-1 zoom-from-left" id="Teaching">
+            <h2><i class="fa-solid fa-person-chalkboard"></i>   Teaching</h2><!--<i class="fa-solid fa-chalkboard-user"></i>-->
+            <div id="teachingSubjects"class="subjects-list"> </div>
+         </div>
+         <!--learning box-->
+         <div class="section-box zoom-in zoom-delay-1 zoom-from-right">
+            <h2><i class="fa-solid fa-user-graduate"></i>   Learning</h2>
+            <div id="learningSubjects"class="subjects-list"> </div>
+         </div>
+        </div>
+        
+                <!--comments-->
+          <div class="comments-section zoom-in zoom-delay-2 zoom-rotate">
+             <h3 class="comments-title">Comments <span id="commentCount">0</span></h3>
+             <!-- Comment list -->
+             <div class="comments-list" id="commentsList"></div></div>
+            
+           </div> 
+
+        <div id="edit-profile-modal" class="modal hidden">
+            <div class="modal-content">
+             <div class="sup">
+              <h3 class="edit-title">Edit Profile</h3>
+              <div class="input-group">
+                <div class="field">
+                  <label for="edit-userName">User name:</label>
+                  <input type="text" id="edit-userName" placeholder="">
+                </div>
+                <div class="field">
+                   <label for="edit-location">Location:</label>
+                  <input type="text" id="edit-location" placeholder="">
+                </div>
+                <div class="field">
+                  <label for="edit-about">About:</label>
+                <input type="text" id="edit-about" placeholder="About">
+                </div>
+                
+              
+                
+              </div>
+             </div>
+            <div class="modal-subjects-row">
+              <div class="section-box" id="modalTeachingBox">
+                <div class="titre-teaching">
+                  <h3><i class="fa-solid fa-person-chalkboard icon-title"></i> Teaching </h3>
+                  <input type="text" id="new-teaching-subject" placeholder="Add new subject" style="display: none;" >
+                   <button class="add-subject-btn" onclick="showTeachingInput()"><i class="fa-solid fa-plus"></i></button>
+                </div>
+                  
+                  <div id="edit-teaching-list" class="subjects-list"></div>
+                  
+              </div>
+
+              <div class="section-box" id="modalLearningBox">
+                 <div class="titre-learning">
+                    <h3><i class="fa-solid fa-user-graduate icon-title"></i> Learning </h3>
+                    <input type="text" id="new-learning-subject" placeholder="Add new subject" style="display: none;">
+                    <button class="add-subject-btn" onclick="showLearningInput()"><i class="fa-solid fa-plus"></i></button>
+                 </div>
+                 <div id="edit-learning-list" class="subjects-list"></div>
+              </div>
+            </div>
+            <div class="input-group">
+                <h3>Connect your accounts</h3>
+                <div class="field">
+                  <label for="edit-discord">Discord<i class="fa-brands fa-discord"></i></label>
+                  <input type="text" id="edit-discord" placeholder="">
+                </div>
+                <div class="field">
+                  <label for="edit-telegram">Telegram<i class="fa-brands fa-telegram"></i></label>
+                  <input type="text" id="edit-telegram" placeholder="">
+                </div>
+                <div class="field">
+                  <label for="edit-gmail">Email<i class="fa-solid fa-envelope"></i></label>
+                  <input type="text" id="edit-gmail" placeholder="">
+                </div>
+                
+            </div>
+            
+              
+              
+              <div class="modal-actions">
+                <button onclick="saveProfile()">Save</button>
+                <button onclick="closeModal()">Cancel</button>
+              </div>
+            </div>
+            
+          </div>
+          
+  
+     
+        <script src="js/profil-user.js"></script>
+    </body>
+</html>

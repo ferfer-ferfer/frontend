@@ -103,12 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
-
-
-
-
-  document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
     const toggleCheckbox = document.getElementById("checkbox"); // Ensure correct ID
     const root = document.documentElement; // Target <html> for CSS variables
   
@@ -128,11 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem("theme", newTheme);
     });
   });
-
-
-
-
-
 
 masterTl = gsap.timeline({
     defaults: {
@@ -321,9 +311,18 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
 
     if (res.ok) {
       // Store the token in localStorage
+      if (!data.verified) {
+        alert("Please verify your email before logging in.");
+        window.location.href = '/verify.html'; // Redirect to verification page
+       
+      } else{
+      if( data.complete) {
       localStorage.setItem('token', data.token);
       window.location.href = '/home.html'; // Redirect to home on success
-    }
+     } else {
+      window.location.href = '/welcome.html'; 
+     }
+  }}
 
   } catch (err) {
     console.error('Login error:', err);

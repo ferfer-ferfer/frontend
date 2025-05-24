@@ -262,3 +262,48 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
+//contact form
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.querySelector('.contact-form');
+
+  if (!form) {
+    console.error('Contact form not found!');
+    return;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const name = form.querySelector('input[type="text"]').value.trim();
+    const email = form.querySelector('input[type="email"]').value.trim();
+    const message = form.querySelector('textarea').value.trim();
+
+    if (!name || !email || !message) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:80/api/auth/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert(result.message);
+        form.reset();
+      } else {
+        alert(result.error || 'Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while sending the message.');
+    }
+  });
+});

@@ -424,18 +424,24 @@ background-color: var(--primary-light);
 .cancel-button:hover {
   opacity: 0.9;
 }
-
 .comment {
   display: flex;
   align-items: flex-start;
-  margin-top: 15px;
+  margin-bottom: 1rem;
+  padding: 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  gap: 1rem;
   font-size: 14px;
+  color: #333;
 }
 
-.avatar {
+.comment .avatar {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  object-fit: cover;
+  border: 2px solid #ccc;
   margin-right: 10px;
 }
 
@@ -444,20 +450,49 @@ background-color: var(--primary-light);
 }
 
 .username {
-  font-weight: bold;
+  font-weight: 700;
+  color: #333;
 }
 
 .time {
-  font-size: 0.85em;
-  color: #555;
-  margin-left: 5px;
+  font-size: 7px;    
+  color: #5a1e1e;
+  margin-left: 0.5rem;
+  font-weight: 400;
+  opacity: 0.7;
 }
 
-/* حركة الزوم الأساسية */
+.comment-content p {
+  margin: 0.5rem 0;
+  color: #444;
+}
+
+.comment-content > div {
+  font-size: 1rem;
+  color: gold; 
+}
+
+button {
+  background-color: #e74c3c;
+  border: none;
+  color: white;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-top: 0.3rem;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #c0392b;
+}
+
+/* Zoom-in animation */
 .zoom-in {
-    opacity: 0;
-    transform: scale(0.8);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
   
@@ -506,29 +541,7 @@ background-color: var(--primary-light);
     --shadow: rgba(0,0,0,0.2);
 }
 
-.custom-modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0; top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .modal-content {
-    background-color: var(--card-bg) !important;
-    color: var(--text-primary);
-    padding: 30px 25px;
-    border-radius: 16px;
-    width: 400px;
-    max-width: 90%;
-    box-shadow: 0 8px 20px var(--shadow) !important;
-    position: relative;
-    animation: zoomIn 0.4s ease;
-  }
+
   
   .custom-modal {
     display: none;
@@ -715,6 +728,35 @@ background-color: var(--primary-light);
     cursor: pointer;
     background-color: var(--primary-dark);
   }
+  @media (max-width: 1030px) and (min-width: 601px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 10px;
+  }
+
+  .demand-btn {
+     width: 150px;
+    max-width: 300px;
+    margin: 0 0;
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  .left {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  .profile-info h3 {
+    font-size: 16px;
+  }
+
+
+
+}
+
  /* تحسين العرض على الشاشات الصغيرة */
 @media (max-width: 600px) {
   .profile-container {

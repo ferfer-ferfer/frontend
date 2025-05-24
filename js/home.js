@@ -1,4 +1,4 @@
-// Update your document.addEventListener("DOMContentLoaded") function to include GSAP animations
+
 document.addEventListener("DOMContentLoaded", function () {
   // Get all dropdown containers
   const containers = document.querySelectorAll(".container");
@@ -1103,7 +1103,6 @@ async function loadUserProfile() {
     avatarImg.src = user.profile_picture || "icons/profile.png";
     userName.textContent = user.Users_name || `${user.first_name} ${user.last_name}`;
     userEmail.textContent = user.email || "No email";
-
   } catch (error) {
     console.error("Error loading profile:", error);
   }
@@ -1129,7 +1128,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const profileLink = document.getElementById("profile-link");
   if (profileLink) {
     profileLink.addEventListener("click", () => {
-      window.location.href = "profil.html"; 
+      window.location.href = "profil-user.html"; 
     });
   }
 });

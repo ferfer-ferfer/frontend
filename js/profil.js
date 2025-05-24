@@ -36,12 +36,6 @@ function renderSkillCards({ teaching = [], learning = [] }) {
 }
 
 
-const commentBox = document.querySelector('.comment-box');
-commentBox.addEventListener('input', () => {
-  commentBox.style.height = 'auto';
-  commentBox.style.height = commentBox.scrollHeight + 'px';
-});
-
 
 async function loadProfile() {
   try {
@@ -126,7 +120,7 @@ async function loadProfile() {
 
       const data = await res.json();
       if (res.ok) {
-        loadComments();
+        location.reload();
         commentBox.value = '';
         selectedRating = 0;
         updateStarDisplay();
@@ -204,7 +198,6 @@ comments.forEach(comment => {
 
   const avatarUrl = sender.profile_picture || 'image/profil.jpg';
   const createdAt = comment.createdAt ? new Date(comment.createdAt) : new Date();
-console.log('Raw createdAt:', comment.createdAt);
   const div = document.createElement('div');
   div.classList.add('comment');
   div.dataset.id = comment.id;
@@ -219,6 +212,8 @@ console.log('Raw createdAt:', comment.createdAt);
     </div>
   `;
   
+console.log('sender:', sender);
+console.log('avatarUrl:', sender);
 
   commentsList.appendChild(div);
 });
@@ -336,10 +331,7 @@ function fillStars(rating) {
 async function loadProfile() {
   /* ---- read id from localStorage ---- */
   const userid = localStorage.getItem('viewUserId');
-  if (!userid) {
-    setText('userAbout', 'No user id in localStorage.');
-    return;
-  }
+
 
   try {
     const resp = await fetch(`http://localhost:80/api/user/profile/${userid}`);
