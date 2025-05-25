@@ -314,8 +314,8 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     const data = await res.json();
     alert(data.message);
 
-    if (res.ok) {
-      // Store the token in localStorage
+   if (res.ok) {
+     
       if (!data.verified) {
         alert("Please verify your email before logging in.");
         window.location.href = '/verify.html'; 
