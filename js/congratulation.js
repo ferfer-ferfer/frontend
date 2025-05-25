@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
             alert(data.message);
 
             if (res.ok) {
-                localStorage.removeItem("Token");
                 window.location.href = "/home.html";
             }
         } catch (err) {

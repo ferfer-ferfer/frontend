@@ -141,29 +141,7 @@ document.addEventListener('click', (e) => {
 
 
 
-async function fetchClasses() {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await fetch("http://localhost/api/class/classes", {
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    });
 
-    const { user_photo, user_name, classes } = await response.json();
-
-    document.getElementById('profileImgT').src = user_photo || 'image/profil.jpg';
-    document.getElementById('profileImgL').src = user_photo || 'image/profil.jpg';
-    document.getElementById('Pteaching').textContent = `Welcome back, ${user_name}. Continue your teaching journey.`;
-    document.getElementById('Plearning').textContent = `Welcome back, ${user_name}. Continue your learning journey.`;
-
-    clearCourses();
-    renderCourses(classes);
-
-  } catch (err) {
-    console.error("Error fetching classes:", err);
-  }
-}
 
 function clearCourses() {
   document.querySelectorAll('.bar.in-progress, .bar.completed').forEach(bar => {
@@ -173,20 +151,22 @@ function clearCourses() {
 
 function renderCourses(classes) {
   classes.forEach(course => {
-    const isTeacher = course.type === 'teacher';
-    const isStudent = course.type === 'learner';
-    if (!isTeacher && !isStudent) return;
+    if (!course.type) return;
 
+    const isTeacher = course.type === 'teacher';
     const sectionId = isTeacher ? 'teaching-section' : 'mycourses-section';
     const profName = isTeacher ? course.receiver_name : course.sender_name;
-    const progress = course.duration > 0 ? Math.round((course.time_gone / course.duration) * 100) : 0;
+
+    const progress = course.duration > 0 
+      ? Math.round((course.time_gone / course.duration) * 100)
+      : 0;
     const isComplete = course.time_gone === course.duration;
 
     const moduleHTML = `
       <div class="module">
         <div class="course">
-          <h2>${course.skill_name}</h2>
-          <div class="professor-name">${profName}</div>
+          <h2>${course.skill_name || 'No Skill Name'}</h2>
+          <div class="professor-name">${profName || 'Unknown'}</div>
           <div class="progress-header">
             <p>Progress</p>
             <span class="pourcentage">${progress}%</span>
@@ -199,7 +179,9 @@ function renderCourses(classes) {
               <i class="fas ${isComplete ? 'fa-check-circle' : 'fa-stopwatch'}"></i>
               <span>${isComplete ? 'Completed' : `${course.time_gone}h gone`}</span>
             </div>
-            <button class="${isComplete ? 'certificate-btn' : 'continue-btn'}">
+            <button 
+              class="${isComplete ? 'certificate-btn' : 'continue-btn'}" 
+              data-id="${course.class_id || ''}">
               ${isComplete ? 'Certificate' : 'Continue'}
             </button>
           </div>
@@ -207,6 +189,10 @@ function renderCourses(classes) {
       </div>`;
 
     const container = document.querySelector(`#${sectionId} .bar.${isComplete ? 'completed' : 'in-progress'}`);
-    if (container) container.insertAdjacentHTML('beforeend', moduleHTML);
+    if (container) {
+      container.insertAdjacentHTML('beforeend', moduleHTML);
+    } else {
+      console.warn(`Container not found: #${sectionId} .bar.${isComplete ? 'completed' : 'in-progress'}`);
+    }
   });
 }

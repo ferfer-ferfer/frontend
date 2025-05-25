@@ -103,6 +103,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const toggleCheckbox = document.getElementById("checkbox"); // Ensure correct ID
     const root = document.documentElement; // Target <html> for CSS variables
@@ -313,15 +318,13 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
       // Store the token in localStorage
       if (!data.verified) {
         alert("Please verify your email before logging in.");
-        window.location.href = '/verify.html'; // Redirect to verification page
+        window.location.href = '/verify.html'; 
        
       } else{
-      if( data.complete) {
+     
       localStorage.setItem('token', data.token);
-      window.location.href = '/home.html'; // Redirect to home on success
-     } else {
-      window.location.href = '/welcome.html'; 
-     }
+      window.location.href = '/home.html'; 
+
   }}
 
   } catch (err) {

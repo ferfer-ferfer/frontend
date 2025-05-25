@@ -25,7 +25,7 @@
  <script>
   const params = new URLSearchParams(window.location.search);
   const token = params.get('token');
-  const newUser = params.get('newUser'); // <-- THIS LINE WAS MISSING
+  const newUser = params.get('newUser'); 
   const error = params.get('error');
 
   if (token) {

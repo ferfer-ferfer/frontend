@@ -454,13 +454,7 @@ background-color: var(--primary-light);
   color: #333;
 }
 
-.time {
-  font-size: 7px;    
-  color: #5a1e1e;
-  margin-left: 0.5rem;
-  font-weight: 400;
-  opacity: 0.7;
-}
+
 
 .comment-content p {
   margin: 0.5rem 0;
@@ -712,7 +706,7 @@ button:hover {
     color: gris;
   }
   .time {
-    font-size: 22px; 
+    font-size: 12px; 
     font-weight: bold; /* Optional: makes it look more prominent */
     color:var(--text-primary);
   }
