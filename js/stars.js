@@ -1,3 +1,6 @@
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const stars = document.querySelectorAll('.star');
     let rating = 0;

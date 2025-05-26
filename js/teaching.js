@@ -1,4 +1,15 @@
-        document.addEventListener("DOMContentLoaded", function () {
+// if no token dont acces 
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        // Not logged in, redirect to login page
+        window.location.href = '/index.html';
+    }
+});
+
+
+      
+      document.addEventListener("DOMContentLoaded", function () {
             const skillBoxes = document.querySelectorAll(".skill");
             const continueBtn = document.querySelector(".continue-btn");
             const selectedSkills = new Set();
@@ -27,7 +38,7 @@
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${localStorage.getItem('Token')}`
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
                         },
                         body: JSON.stringify({ teachSkills: Array.from(selectedSkills) })
                     });

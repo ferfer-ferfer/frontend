@@ -1,3 +1,13 @@
+// if no token dont acces 
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        // Not logged in, redirect to login page
+        window.location.href = '/index.html';
+    }
+});
+
+
 document.addEventListener('DOMContentLoaded', () => {
  
 
@@ -139,60 +149,19 @@ document.addEventListener('click', (e) => {
   fetchClasses();
 });
 
+document.querySelectorAll('.search-box input').forEach(input => {
+  input.addEventListener('keyup', function () {
+    const query = this.value.toLowerCase().trim();
+    const parentSection = this.closest('.main-area');
 
-
-
-
-function clearCourses() {
-  document.querySelectorAll('.bar.in-progress, .bar.completed').forEach(bar => {
-    bar.innerHTML = '';
+    parentSection.querySelectorAll('.module').forEach(module => {
+      const skillName = module.querySelector('h2')?.textContent.toLowerCase() || '';
+      if (skillName.includes(query)) {
+        module.style.display = 'block';
+      } else {
+        module.style.display = 'none';
+      }
+    });
   });
-}
+});
 
-function renderCourses(classes) {
-  classes.forEach(course => {
-    if (!course.type) return;
-
-    const isTeacher = course.type === 'teacher';
-    const sectionId = isTeacher ? 'teaching-section' : 'mycourses-section';
-    const profName = isTeacher ? course.receiver_name : course.sender_name;
-
-    const progress = course.duration > 0 
-      ? Math.round((course.time_gone / course.duration) * 100)
-      : 0;
-    const isComplete = course.time_gone === course.duration;
-
-    const moduleHTML = `
-      <div class="module">
-        <div class="course">
-          <h2>${course.skill_name || 'No Skill Name'}</h2>
-          <div class="professor-name">${profName || 'Unknown'}</div>
-          <div class="progress-header">
-            <p>Progress</p>
-            <span class="pourcentage">${progress}%</span>
-          </div>
-          <div class="progress-bar">
-            <div class="progress" style="width: ${progress}%"></div>
-          </div>
-          <div class="footer-row">
-            <div class="time-left">
-              <i class="fas ${isComplete ? 'fa-check-circle' : 'fa-stopwatch'}"></i>
-              <span>${isComplete ? 'Completed' : `${course.time_gone}h gone`}</span>
-            </div>
-            <button 
-              class="${isComplete ? 'certificate-btn' : 'continue-btn'}" 
-              data-id="${course.class_id || ''}">
-              ${isComplete ? 'Certificate' : 'Continue'}
-            </button>
-          </div>
-        </div>
-      </div>`;
-
-    const container = document.querySelector(`#${sectionId} .bar.${isComplete ? 'completed' : 'in-progress'}`);
-    if (container) {
-      container.insertAdjacentHTML('beforeend', moduleHTML);
-    } else {
-      console.warn(`Container not found: #${sectionId} .bar.${isComplete ? 'completed' : 'in-progress'}`);
-    }
-  });
-}

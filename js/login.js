@@ -1,4 +1,6 @@
 
+
+
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('login-form');
     const signupForm = document.getElementById('signup-form');
@@ -260,7 +262,7 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
     first_name,
     last_name,
   };
-
+  
   try {
     const res = await fetch('http://localhost:80/api/auth/register', {
       method: 'POST',
@@ -274,6 +276,7 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
     alert(data.message);
 
     if (res.ok  ) { 
+       localStorage.setItem('registeredEmail', email); 
       // Redirect to verification page
       window.location.href = '/verify.html';
     } else {alert("no no no "); }
@@ -426,3 +429,14 @@ document.getElementById('verify-code-form').addEventListener('submit', async (e)
       document.getElementById('facebook-login').addEventListener('click', () => loginWith('facebook'));
       document.getElementById('apple-login').addEventListener('click', () => loginWith('apple'));
     });
+
+
+
+// sing out function
+function logout() {
+    localStorage.removeItem('token');
+    window.location.href = '/login.html';
+}
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('signout').addEventListener('click', logout);
+});

@@ -1,3 +1,12 @@
+// if no token dont acces 
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        // Not logged in, redirect to login page
+        window.location.href = '/index.html';
+    }
+});
+
 document.getElementById('profile-update-form').addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -23,7 +32,7 @@ document.getElementById('profile-update-form').addEventListener('submit', async 
     const res = await fetch('http://localhost:80/api/user/info', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('Token')}`,
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
       body: formData,
     });

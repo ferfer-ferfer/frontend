@@ -1,3 +1,14 @@
+// if no token dont acces 
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        // Not logged in, redirect to login page
+        window.location.href = '/index.html';
+    }
+});
+
+
+
 //profile informations
 function setText(id, html) {
   const el = document.getElementById(id);

@@ -33,7 +33,10 @@
     <script>
         document.getElementById('verifyForm').addEventListener('submit', async (e) => {
           e.preventDefault();
-      
+         const savedEmail = localStorage.getItem('registeredEmail');
+if (savedEmail) {
+  document.getElementById('email').value = savedEmail.trim();
+}
           const email = document.getElementById('email').value.trim();
           const userCode = document.getElementById('verificationCode').value.trim();
           const storedCode = localStorage.getItem('verificationCode');
@@ -57,11 +60,10 @@
       
             if (res.ok) {
               document.getElementById('message').innerHTML = `<p style="color: green;">${data.message}</p>`;
-              localStorage.setItem('Token', data.token); 
-      
-              setTimeout(() => {
+              localStorage.setItem('token', data.token); 
+
                 window.location.href = '/welcome.html';
-              }, 1500);
+
             } else {
               document.getElementById('message').innerHTML = `<p style="color: red;">${data.message}</p>`;
             }
