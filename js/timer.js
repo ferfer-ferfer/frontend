@@ -19,44 +19,77 @@ if (userId) {
 
 
 document.addEventListener("DOMContentLoaded", () => {
+  // DOM elements
   const timerDisplay = document.getElementById("timer");
   const readyBtn1 = document.getElementById("user1-button");
   const readyBtn2 = document.getElementById("user2-button"); 
   const pauseBtn = document.getElementById("pause-button");
   const stopBtn = document.getElementById("end-button");
-  const pauseModal = document.getElementById("pauseModal");
   const teacherReadyIndicator = document.getElementById("user1-ready");
   const studentReadyIndicator = document.getElementById("user2-ready");
-  const pointsDisplay = document.getElementById("points-earned");
-  const currentUserDisplay = document.getElementById("current-user-info");
-  const otherUserDisplay = document.getElementById("other-user-info");
+  const pointsDisplay = document.querySelector(".points-text");
+  
+  // Modal elements
+  const endSessionModal = document.querySelector(".window");
+  const modalOverlay = document.createElement("div");
+  modalOverlay.className = "overlay";
+  document.body.appendChild(modalOverlay);
+  const confirmEndBtn = document.querySelector(".window .btn:nth-child(2)");
+  const cancelEndBtn = document.querySelector(".window .btn:nth-child(1)");
+  const sessionDurationText = document.querySelector(".window p:nth-of-type(2)");
+  const reasonCards = document.querySelectorAll(".card");
+  
+  // Feedback elements
+  const feedbackContainer = document.querySelector(".feedback-container");
+  const feedbackDuration = feedbackContainer.querySelector(".session-item:nth-child(1) span:last-child");
+  const feedbackPoints = feedbackContainer.querySelector(".session-item:nth-child(2) span:last-child");
+  const stars = feedbackContainer.querySelectorAll(".star");
+  const feedbackTextarea = feedbackContainer.querySelector("textarea");
+  const submitFeedbackBtn = document.getElementById("submit");
+  const closeFeedbackBtn = document.getElementById("close");
 
+  // State variables
   let timer = null;
   let seconds = 0;
   let isPaused = false;
   let userRole = null;
   let currentClassId = localStorage.getItem('currentClassId');
+  let lastServerTime = 0;
+  let classData = null;
+  let selectedReason = null;
 
+  // Utility functions
   function formatTime(s) {
     const min = Math.floor(s / 60).toString().padStart(2, "0");
     const sec = (s % 60).toString().padStart(2, "0");
     return `${min}:${sec}`;
   }
 
+  function formatDetailedTime(s) {
+    const hours = Math.floor(s / 3600);
+    const minutes = Math.floor((s % 3600) / 60);
+    const seconds = s % 60;
+    
+    if (hours > 0) {
+      return `${hours}h ${minutes}m ${seconds}s`;
+    } else if (minutes > 0) {
+      return `${minutes}m ${seconds}s`;
+    } else {
+      return `${seconds}s`;
+    }
+  }
+
   function updateTimerDisplay() {
     timerDisplay.textContent = formatTime(seconds);
+    pointsDisplay.textContent = `${Math.floor(seconds / 2)} points earned`;
   }
 
   function startTimer() {
-    if (timer) return;
+    if (timer) clearInterval(timer);
     timer = setInterval(() => {
       if (!isPaused) {
         seconds++;
         updateTimerDisplay();
-        // Update points every 2 seconds
-        if (seconds % 2 === 0) {
-          pointsDisplay.textContent = `Points: ${Math.floor(seconds / 2)}`;
-        }
       }
     }, 1000);
   }
@@ -71,28 +104,86 @@ document.addEventListener("DOMContentLoaded", () => {
   function togglePause() {
     isPaused = !isPaused;
     pauseBtn.textContent = isPaused ? "Resume" : "Pause";
-    if (!isPaused) {
-      pauseModal.classList.remove("show");
-      pauseModal.style.display = "none";
-    } else {
-      pauseModal.classList.add("show");
-      pauseModal.style.display = "block";
+    pauseBtn.style.display = isPaused ? "none" : "inline-flex";
+    document.getElementById("resume-button").style.display = isPaused ? "inline-flex" : "none";
+  }
+
+  // Modal functions
+  function showEndSessionModal() {
+    sessionDurationText.textContent = formatDetailedTime(seconds);
+    endSessionModal.style.display = "flex";
+    modalOverlay.style.display = "block";
+    
+    // Reset card selection
+    resetCardSelection();
+    selectedReason = null;
+    
+    // GSAP animation if available
+    if (typeof gsap !== "undefined") {
+      gsap.fromTo(
+        endSessionModal,
+        { y: -30, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" }
+      );
     }
   }
 
+  function hideEndSessionModal() {
+    if (typeof gsap !== "undefined") {
+      gsap.to(endSessionModal, {
+        y: -30,
+        opacity: 0,
+        duration: 0.3,
+        ease: "power2.in",
+        onComplete: () => {
+          endSessionModal.style.display = "none";
+          modalOverlay.style.display = "none";
+        }
+      });
+    } else {
+      endSessionModal.style.display = "none";
+      modalOverlay.style.display = "none";
+    }
+  }
+
+  function resetCardSelection() {
+    reasonCards.forEach(card => {
+      if (typeof gsap !== "undefined") {
+        gsap.to(card, {
+          backgroundColor: "var(--border)",
+          color: "var(--text-secondary)",
+          duration: 0.3,
+          y: 0,
+        });
+      } else {
+        card.style.backgroundColor = "var(--border)";
+        card.style.color = "var(--text-secondary)";
+      }
+    });
+  }
+
+  function showFeedback() {
+    feedbackDuration.textContent = formatDetailedTime(seconds);
+    feedbackPoints.textContent = Math.floor(seconds / 2);
+    feedbackContainer.style.display = "block";
+    modalOverlay.style.display = "block";
+  }
+
+  function hideFeedback() {
+    feedbackContainer.style.display = "none";
+    modalOverlay.style.display = "none";
+  }
+
+  // API functions
   async function fetchClassStatus() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(`http://localhost:80/api/class/${currentClassId}`, {
-        headers: {
-          "Authorization": `Bearer ${token}`
-        }
+        headers: { "Authorization": `Bearer ${token}` }
       });
 
       if (!response.ok) throw new Error("Failed to fetch class status");
-
-      const data = await response.json();
-      return data;
+      return await response.json();
     } catch (err) {
       console.error("[Fetch Class Error]", err);
       return null;
@@ -100,44 +191,40 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function updateClassUI() {
-    const classData = await fetchClassStatus();
-    if (!classData) return;
-
-    // Set user role and update UI accordingly
-    const { currentUser, otherUser, userRole, classInfo } = classData;
-    const isTeacher = userRole === "teacher";
+    classData = await fetchClassStatus();
     
-    // Update user displays
-    if (isTeacher) {
-      // Teacher on left
-      document.querySelector(".user-left .user-name").textContent = currentUser.username;
-      document.querySelector(".user-left .profile-image img").src = currentUser.profilePicture;
-      document.querySelector(".user-left .role").textContent = "Teacher";
-
-      document.querySelector(".user-right .user-name").textContent = otherUser.username;
-      document.querySelector(".user-right .profile-image img").src = otherUser.profilePicture;
-      document.querySelector(".user-right .role").textContent = "Learner";
-    } else {
-      // Student on right
-      document.querySelector(".user-right .user-name").textContent = currentUser.username;
-      document.querySelector(".user-right .profile-image img").src = currentUser.profilePicture;
-      document.querySelector(".user-right .role").textContent = "Learner";
-
-      document.querySelector(".user-left .user-name").textContent = otherUser.username;
-      document.querySelector(".user-left .profile-image img").src = otherUser.profilePicture;
-      document.querySelector(".user-left .role").textContent = "Teacher";
+    if (!classData || !classData.classInfo || !classData.userRole) {
+      console.error("Invalid class data received");
+      return;
     }
 
-    // Update readiness indicators
-    teacherReadyIndicator.textContent = classData.classInfo.teacherReady ? "✅" : "⏳";
-    studentReadyIndicator.textContent = classData.classInfo.studentReady ? "✅" : "⏳";
+    userRole = classData.userRole;
+    const isTeacher = userRole === "teacher";
+    
+    const updateUserDisplay = (side, user, role) => {
+      const element = document.querySelector(`.user-${side}`);
+      element.querySelector(".user-name").textContent = user.username;
+      element.querySelector(".profile-image img").src = user.profilePicture;
+      element.querySelector(".role").textContent = role;
+    };
 
-    // Set timer to elapsed time from server
-    seconds = classData.classInfo.elapsedTime || 0;
-    updateTimerDisplay();
-    pointsDisplay.textContent = `Points: ${classData.classInfo.pointsEarned || 0}`;
+    if (isTeacher) {
+      updateUserDisplay("left", classData.currentUser, "Teacher");
+      updateUserDisplay("right", classData.otherUser, "Learner");
+    } else {
+      updateUserDisplay("right", classData.currentUser, "Learner");
+      updateUserDisplay("left", classData.otherUser, "Teacher");
+    }
 
-    // Show/hide appropriate buttons based on role and status
+    teacherReadyIndicator.textContent = classData.classInfo.teacherReady ? "Ready!" : "Not Ready";
+    studentReadyIndicator.textContent = classData.classInfo.studentReady ? "Ready!" : "Not Ready";
+
+    if (classData.classInfo.elapsedTime !== lastServerTime) {
+      seconds = classData.classInfo.elapsedTime || 0;
+      lastServerTime = seconds;
+      updateTimerDisplay();
+    }
+
     const currentUserReadyBtn = isTeacher ? readyBtn1 : readyBtn2;
     const otherUserReadyBtn = isTeacher ? readyBtn2 : readyBtn1;
 
@@ -145,278 +232,257 @@ document.addEventListener("DOMContentLoaded", () => {
     currentUserReadyBtn.style.display = "block";
 
     if (classData.classInfo.isActive) {
-      // Class is active
       if (!timer) startTimer();
       currentUserReadyBtn.style.display = "none";
       
-      if (isTeacher) {
-        pauseBtn.style.display = "inline-block";
-        stopBtn.style.display = "inline-block";
-      }
+      pauseBtn.style.display = "inline-flex";
+      stopBtn.style.display = "inline-flex";
+      document.getElementById("start-button").style.display = "none";
 
-      if (classData.classInfo.isPaused) {
-        if (!isPaused) togglePause();
-      } else {
-        if (isPaused) togglePause();
+      if (classData.classInfo.isPaused !== isPaused) {
+        togglePause();
       }
-    } else if (classData.classInfo.teacherReady || classData.classInfo.studentReady) {
-      // Waiting for other user to be ready
-      currentUserReadyBtn.disabled = true;
-      currentUserReadyBtn.textContent = "Waiting for other user...";
-      pauseBtn.style.display = "none";
-      stopBtn.style.display = "none";
     } else {
-      // Class not started
-      currentUserReadyBtn.disabled = false;
-      currentUserReadyBtn.textContent = "Ready";
+      currentUserReadyBtn.disabled = classData.classInfo[`${userRole}Ready`];
+      currentUserReadyBtn.textContent = currentUserReadyBtn.disabled 
+        ? "Waiting for other user..." 
+        : "Ready to Start";
+      
       pauseBtn.style.display = "none";
       stopBtn.style.display = "none";
+      document.getElementById("start-button").style.display = "inline-flex";
     }
   }
 
-  // Initialize UI
-  async function initialize() {
-    await updateClassUI();
+  async function endClassSession() {
+    const token = localStorage.getItem("token");
+    try {
+      const hours = Math.max(0.01, parseFloat((seconds / 3600).toFixed(4)));
+      const sp = Math.max(1, Math.floor(seconds / 2));
+      
+      const response = await fetch(`http://localhost:80/api/class/${currentClassId}/stop`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          hours: hours,
+          sp: sp,
+          endReason: selectedReason
+        })
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to end session");
+      }
+      
+      const result = await response.json();
+      console.log("Session ended successfully", result);
+      
+      stopTimer();
+      pauseBtn.style.display = "none";
+      stopBtn.style.display = "none";
+      readyBtn1.style.display = "block";
+      readyBtn1.disabled = false;
+      readyBtn1.textContent = "Ready to Start";
+      readyBtn2.style.display = "block";
+      readyBtn2.disabled = false;
+      readyBtn2.textContent = "Ready to Start";
+      
+      // Show feedback modal
+      showFeedback();
+      
+    } catch (err) {
+      console.error("Error ending session:", err);
+      // Show error toast
+      showToast(`Error: ${err.message}`, "error");
+    }
+  }
+
+  function showToast(message, type = "info") {
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+    document.getElementById("toast-container").appendChild(toast);
     
+    setTimeout(() => {
+      toast.remove();
+    }, 3000);
+  }
+
+  // Event handlers
+  async function setupEventHandlers() {
     const isTeacher = userRole === "teacher";
     const currentUserReadyBtn = isTeacher ? readyBtn1 : readyBtn2;
 
-    // Set up ready button handler
     currentUserReadyBtn.addEventListener("click", async () => {
-      const token = localStorage.getItem("token");
+      currentUserReadyBtn.disabled = true;
       try {
         const response = await fetch(`http://localhost:80/api/class/${currentClassId}/ready`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
           }
         });
         
-        if (!response.ok) throw new Error("Failed to set ready status");
-        
+        if (!response.ok) throw new Error("Ready request failed");
         await updateClassUI();
       } catch (err) {
         console.error(err);
+        currentUserReadyBtn.disabled = false;
+        showToast("Failed to set ready status", "error");
       }
     });
 
-    // Set up pause/resume button (teacher only)
-    if (isTeacher) {
-      pauseBtn.addEventListener("click", async () => {
-        const token = localStorage.getItem("token");
-        try {
-          const response = await fetch(`http://localhost:80/api/class/${currentClassId}/pause`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify({
-              pause: !isPaused
-            })
-          });
-          
-          if (!response.ok) throw new Error("Failed to update pause status");
-          
-          togglePause();
-        } catch (err) {
-          console.error(err);
-        }
-      });
+    pauseBtn.addEventListener("click", async () => {
+      try {
+        const response = await fetch(`http://localhost:80/api/class/${currentClassId}/pause`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+          },
+          body: JSON.stringify({ 
+            pause: !isPaused,
+            initiatedBy: userRole
+          })
+        });
+        
+        if (!response.ok) throw new Error("Pause request failed");
+        togglePause();
+      } catch (err) {
+        console.error(err);
+        showToast("Failed to pause session", "error");
+      }
+    });
 
-      stopBtn.addEventListener("click", async () => {
-        const token = localStorage.getItem("token");
-        try {
-          const response = await fetch(`http://localhost:80/api/class/${currentClassId}/end`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
-            }
+    document.getElementById("resume-button").addEventListener("click", async () => {
+      try {
+        const response = await fetch(`http://localhost:80/api/class/${currentClassId}/pause`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+          },
+          body: JSON.stringify({ 
+            pause: false,
+            initiatedBy: userRole
+          })
+        });
+        
+        if (!response.ok) throw new Error("Resume request failed");
+        togglePause();
+      } catch (err) {
+        console.error(err);
+        showToast("Failed to resume session", "error");
+      }
+    });
+
+    stopBtn.addEventListener("click", showEndSessionModal);
+
+    // Modal event handlers
+    confirmEndBtn.addEventListener("click", async () => {
+      if (!selectedReason) {
+        showToast("Please select a reason for ending the session", "warning");
+        return;
+      }
+      hideEndSessionModal();
+      await endClassSession();
+    });
+
+    cancelEndBtn.addEventListener("click", hideEndSessionModal);
+    modalOverlay.addEventListener("click", hideEndSessionModal);
+
+    // Reason card selection
+    reasonCards.forEach(card => {
+      card.addEventListener("click", function() {
+        resetCardSelection();
+        selectedReason = this.dataset.value;
+        
+        if (typeof gsap !== "undefined") {
+          gsap.to(this, {
+            backgroundColor: "var(--primary)",
+            color: "white",
+            y: -3,
+            scale: 1.03,
+            duration: 0.3,
+            ease: "back.out(1.2)",
+            boxShadow: "0 8px 20px var(--shadow)",
           });
-          
-          if (!response.ok) throw new Error("Failed to end session");
-          
-          stopTimer();
-          pauseBtn.style.display = "none";
-          stopBtn.style.display = "none";
-        } catch (err) {
-          console.error(err);
+        } else {
+          this.style.backgroundColor = "var(--primary)";
+          this.style.color = "white";
         }
       });
+    });
+
+    // Feedback stars
+    stars.forEach((star, index) => {
+      star.addEventListener("click", () => {
+        stars.forEach((s, i) => {
+          if (i <= index) {
+            s.innerHTML = '<i class="fa-solid fa-star"></i>';
+          } else {
+            s.innerHTML = '<i class="fa-regular fa-star"></i>';
+          }
+        });
+      });
+    });
+
+    submitFeedbackBtn.addEventListener("click", async () => {
+      const rating = [...stars].filter(star => 
+        star.innerHTML.includes('fa-solid')
+      ).length;
+      const comment = feedbackTextarea.value;
+      
+      try {
+        const response = await fetch(`http://localhost:80/api/class/${currentClassId}/feedback`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+          },
+          body: JSON.stringify({
+            rating,
+            comment,
+            reason: selectedReason
+          })
+        });
+        
+        if (!response.ok) throw new Error("Feedback submission failed");
+        
+        showToast("Feedback submitted successfully!", "success");
+        hideFeedback();
+      } catch (err) {
+        console.error(err);
+        showToast("Failed to submit feedback", "error");
+      }
+    });
+
+    closeFeedbackBtn.addEventListener("click", hideFeedback);
+  }
+
+  // Initialization
+  async function initialize() {
+    try {
+      await updateClassUI();
+      setupEventHandlers();
+      
+      // Poll for updates every 5 seconds
+      setInterval(updateClassUI, 5000);
+    } catch (error) {
+      console.error("Initialization failed:", error);
+      showToast("Failed to initialize session", "error");
     }
-
-    // Poll for updates every 5 seconds
-    setInterval(updateClassUI, 5000);
   }
 
   initialize();
 });
 
 
-document.addEventListener("DOMContentLoaded", () => {
-  const timerDisplay = document.getElementById("timer");
-  const readyBtn1 = document.getElementById("user1-button");
-  const readyBtn2 = document.getElementById("user2-button"); 
-  const pauseBtn = document.getElementById("pause-button");
-  const stopBtn = document.getElementById("end-button");
-  const pauseModal = document.getElementById("pauseModal");
- const teacherReadyIndicator = document.getElementById("user1-ready");
- const studentReadyIndicator = document.getElementById("user2-ready");
-
-
-
-  let timer = null;
-  let seconds = 0;
-  let isPaused = false;
-
-  // Helper to format time mm:ss
-  function formatTime(s) {
-    const min = Math.floor(s / 60).toString().padStart(2, "0");
-    const sec = (s % 60).toString().padStart(2, "0");
-    return `${min}:${sec}`;
-  }
-
-  function updateTimerDisplay() {
-    timerDisplay.textContent = formatTime(seconds);
-  }
-
-  function startTimer() {
-    if (timer) return; // already running
-    timer = setInterval(() => {
-      if (!isPaused) {
-        seconds++;
-        updateTimerDisplay();
-      }
-    }, 1000);
-  }
-
-  function stopTimer() {
-    clearInterval(timer);
-    timer = null;
-    seconds = 0;
-    updateTimerDisplay();
-  }
-
-  function togglePause() {
-    isPaused = !isPaused;
-    pauseBtn.textContent = isPaused ? "Resume" : "Pause";
-    if (!isPaused) {
-      pauseModal.classList.remove("show");
-      pauseModal.style.display = "none";
-    }
-  }
-
-  // Fetch session status and readiness from backend
-  async function checkClassStatus() {
-    const ID_class = localStorage.getItem('currentClassId');
-    const token = localStorage.getItem("token");
-
-    try {
-      const response = await fetch(`http://localhost:80/api/class/${ID_class}/status`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        }
-      });
-
-      if (!response.ok) throw new Error("Failed to fetch status");
-
-      const data = await response.json();
-
-      // Update readiness indicators
-      teacherReadyIndicator.textContent = data.ready.teacher ? "✅" : "⏳";
-      studentReadyIndicator.textContent = data.ready.student ? "✅" : "⏳";
-
-      // Update UI based on status
-      function updateReadyButtonState(button, status) {
-        switch (status) {
-          case "waiting": {
-            button.textContent = "Waiting for other user...";
-            button.disabled = true;
-            pauseBtn.style.display = "none";
-            stopBtn.style.display = "none";
-            break;
-          }
-          case "active": {
-            if (!timer) startTimer();
-            button.style.display = "none";
-            pauseBtn.style.display = "inline-block";
-            stopBtn.style.display = "inline-block";
-            pauseModal.classList.remove("show");
-            pauseModal.style.display = "none";
-            break;
-          }
-          case "paused": {
-            if (!isPaused) {
-              togglePause();
-              pauseModal.classList.add("show");
-              pauseModal.style.display = "block";
-            }
-            break;
-          }
-          case "ended": {
-            stopTimer();
-            alert("Session has ended.");
-            button.disabled = true;
-            pauseBtn.style.display = "none";
-            stopBtn.style.display = "none";
-            break;
-          }
-        }
-      }
-      updateReadyButtonState(readyBtn1, data.status);
-      updateReadyButtonState(readyBtn2, data.status);
-
-      // Example usage (you may want to call this for both buttons based on role/status)
-      // updateReadyButtonState(readyBtn1, data.status);
-      // updateReadyButtonState(readyBtn2, data.status);
-
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  // Add event listeners for both ready buttons
-  readyBtn1.addEventListener("click", async () => {
-    readyBtn1.disabled = true;
-    readyBtn1.textContent = "Ready ✓";
-    await checkClassStatus();
-  });
-
-  readyBtn2.addEventListener("click", async () => {
-    readyBtn2.disabled = true;
-    readyBtn2.textContent = "Ready ✓";
-    await checkClassStatus();
-  });
-
-  if (!pauseBtn || !stopBtn) {
-    console.error("Pause or Stop button not found");
-    return;
-  }
-
-  pauseBtn.addEventListener("click", async () => {
-    togglePause();
-    // TODO: call backend API to pause/resume session here
-  });
-
-  stopBtn.addEventListener("click", async () => {
-    stopTimer();
-    alert("Session stopped.");
-    // TODO: call backend API to stop session here
-  });
-
-  // Initial setup
-  updateTimerDisplay();
-  pauseBtn.style.display = "none";
-  stopBtn.style.display = "none";
-
-  // Poll status every 5 seconds to sync with server
-  checkClassStatus();
-  setInterval(checkClassStatus, 5000);
-});
-//get class info w display it fel page
 
 
 
