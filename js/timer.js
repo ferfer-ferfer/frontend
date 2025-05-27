@@ -7,528 +7,421 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Get the user ID from localStorage
+const userId = localStorage.getItem('currentClassId');
 
-document.addEventListener("DOMContentLoaded", function () {
-  // DOM Elements
-  const timerText = document.querySelector(".timer-text");
-  const pointsText = document.querySelector(".points-text");
-  const user1Button = document.getElementById("user1-button");
-  const user2Button = document.getElementById("user2-button");
-  const user1ReadyIndicator = document.getElementById("user1-ready");
-  const user2ReadyIndicator = document.getElementById("user2-ready");
-  const startButton = document.getElementById("start-button");
-  const pauseButton = document.getElementById("pause-button");
-  const resumeButton = document.getElementById("resume-button");
-  const endButton = document.getElementById("end-button");
+// If it's found, redirect or update the URL
+if (userId) {
+  const currentUrl = new URL(window.location.href);
+  currentUrl.searchParams.set('userId', userId);
+  window.history.replaceState({}, '', currentUrl);
+}
 
-  // Modal elements
-  const windowModal = document.querySelector(".window");
-  const closeButton = document.querySelector(".x");
-  const cancelButton = document.querySelector(".btn:nth-child(1)");
-  const confirmEndButton = document.querySelector(".btn:nth-child(2)");
-  const reasonCards = document.querySelectorAll(".card");
-  const sessionDurationText = document.querySelector(
-    ".window p:nth-of-type(2)"
-  );
-  const othericon = document.querySelector(".fa-ellipsis");
 
-  // Create overlay element if it doesn't exist
-  let overlay = document.querySelector(".overlay");
-  if (!overlay) {
-    overlay = document.createElement("div");
-    overlay.className = "overlay";
-    document.body.appendChild(overlay);
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  const timerDisplay = document.getElementById("timer");
+  const readyBtn1 = document.getElementById("user1-button");
+  const readyBtn2 = document.getElementById("user2-button"); 
+  const pauseBtn = document.getElementById("pause-button");
+  const stopBtn = document.getElementById("end-button");
+  const pauseModal = document.getElementById("pauseModal");
+  const teacherReadyIndicator = document.getElementById("user1-ready");
+  const studentReadyIndicator = document.getElementById("user2-ready");
+  const pointsDisplay = document.getElementById("points-earned");
+  const currentUserDisplay = document.getElementById("current-user-info");
+  const otherUserDisplay = document.getElementById("other-user-info");
 
-  // Timer state
+  let timer = null;
   let seconds = 0;
-  let isRunning = false;
   let isPaused = false;
-  let intervalId = null;
-  let user1Ready = false;
-  let user2Ready = false;
+  let userRole = null;
+  let currentClassId = localStorage.getItem('currentClassId');
 
-  // User data - in a real app, this would come from authentication
-  const users = {
-    user1: {
-      id: "user1",
-      name: "Bensalah Abderrahmane",
-      role: "teacher",
-      element: user1Button,
-      indicator: user1ReadyIndicator,
-      isReady: false,
-    },
-    user2: {
-      id: "user2",
-      name: "Abderrahmane Bn",
-      role: "learner",
-      element: user2Button,
-      indicator: user2ReadyIndicator,
-      isReady: false,
-    },
-  };
-
-  // Current user simulation (in a real app this would be determined by auth)
-  const currentUser = users.user1; // For demo purposes, assume we're user1
-  const otherUser = users.user2; // The other user
-
-  // Format time to display as mm:ss
-  function formatTime(totalSeconds) {
-    const minutes = Math.floor(totalSeconds / 60);
-    const remainingSeconds = totalSeconds % 60;
-    return `${minutes
-      .toString()
-      .padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+  function formatTime(s) {
+    const min = Math.floor(s / 60).toString().padStart(2, "0");
+    const sec = (s % 60).toString().padStart(2, "0");
+    return `${min}:${sec}`;
   }
 
-  // Format session duration for display in the modal
-  function formatSessionDuration(totalSeconds) {
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    if (hours > 0) {
-      return `${hours}hr ${minutes}min ${seconds}sec`;
-    } else if (minutes > 0) {
-      return `${minutes}min ${seconds}sec`;
-    } else {
-      return `${seconds}sec`;
-    }
-  }
-
-  // Update the timer display
   function updateTimerDisplay() {
-    timerText.textContent = formatTime(seconds);
-    const points = Math.floor(seconds / 2);
-    pointsText.textContent = `${points} points earned`;
+    timerDisplay.textContent = formatTime(seconds);
   }
 
-  // Start the timer
   function startTimer() {
-    if (!isRunning) {
-      isRunning = true;
-      isPaused = false;
-
-      // Update UI
-      startButton.style.display = "none";
-      pauseButton.style.display = "inline-flex";
-      endButton.style.display = "inline-flex";
-      user1Button.style.display = "none";
-      user2Button.style.display = "none";
-
-      // Start the interval
-      intervalId = setInterval(() => {
+    if (timer) return;
+    timer = setInterval(() => {
+      if (!isPaused) {
         seconds++;
         updateTimerDisplay();
-      }, 1000);
-    }
-  }
-
-  // Pause the timer
-  function pauseTimer(initiatingUser) {
-    if (isRunning && !isPaused) {
-      isPaused = true;
-      users.user1.isReady = false;
-      users.user2.isReady = false;
-
-      // Update UI
-      pauseButton.style.display = "none";
-      resumeButton.style.display = "inline-flex";
-      user1Button.style.display = "inline-flex";
-      user2Button.style.display = "inline-flex";
-      user1Button.textContent = "Ready to Resume";
-      user2Button.textContent = "Ready to Resume";
-      user1Button.dataset.action = "resume";
-      user2Button.dataset.action = "resume";
-      user1ReadyIndicator.textContent = "Not Ready";
-      user2ReadyIndicator.textContent = "Not Ready";
-      user1ReadyIndicator.classList.remove("is-ready");
-      user2ReadyIndicator.classList.remove("is-ready");
-
-      // Enable both buttons for the resume state
-      user1Button.disabled = false;
-      user2Button.disabled = false;
-
-      // Clear the interval
-      clearInterval(intervalId);
-    }
-  }
-
-  // Resume the timer
-  function resumeTimer() {
-    if (isRunning && isPaused && users.user1.isReady && users.user2.isReady) {
-      isPaused = false;
-
-      // Update UI
-      resumeButton.style.display = "none";
-      pauseButton.style.display = "inline-flex";
-      user1Button.style.display = "none";
-      user2Button.style.display = "none";
-
-      // Start the interval
-      intervalId = setInterval(() => {
-        seconds++;
-        updateTimerDisplay();
-      }, 1000);
-    }
-  }
-
-  // End the timer - THIS FUNCTION SHOULD ONLY BE CALLED AFTER CONFIRMATION
-  function endTimer(initiatingUser) {
-    if (isRunning) {
-      isRunning = false;
-      isPaused = false;
-      users.user1.isReady = false;
-      users.user2.isReady = false;
-      const points = Math.floor(seconds / 2);
-
-      // Reset UI to initial state
-      startButton.style.display = "inline-flex";
-      pauseButton.style.display = "none";
-      resumeButton.style.display = "none";
-      endButton.style.display = "none";
-      user1Button.style.display = "inline-flex";
-      user2Button.style.display = "inline-flex";
-      user1Button.textContent = "Ready to Start";
-      user2Button.textContent = "Ready to Start";
-      user1Button.dataset.action = "start";
-      user2Button.dataset.action = "start";
-      user1ReadyIndicator.textContent = "Not Ready";
-      user2ReadyIndicator.textContent = "Not Ready";
-      user1ReadyIndicator.classList.remove("is-ready");
-      user2ReadyIndicator.classList.remove("is-ready");
-
-      // Enable both buttons for the next session
-      user1Button.disabled = false;
-      user2Button.disabled = false;
-
-      // Reset timer
-      seconds = 0;
-      updateTimerDisplay();
-
-      // Clear the interval
-      clearInterval(intervalId);
-    }
-  }
-
-  // Handle user ready states
-  function setUserReady(user) {
-    const userId = user.id;
-
-    // Update ready state
-    users[userId].isReady = true;
-    users[userId].indicator.textContent = "Ready!";
-    users[userId].indicator.classList.add("is-ready");
-    users[userId].element.disabled = true;
-
-    // Check if both users are ready
-    if (users.user1.isReady && users.user2.isReady) {
-      if (!isRunning) {
-        startTimer();
-      } else if (isPaused) {
-        resumeTimer();
+        // Update points every 2 seconds
+        if (seconds % 2 === 0) {
+          pointsDisplay.textContent = `Points: ${Math.floor(seconds / 2)}`;
+        }
       }
-    }
+    }, 1000);
   }
 
-  // MODAL FUNCTIONS
+  function stopTimer() {
+    clearInterval(timer);
+    timer = null;
+    seconds = 0;
+    updateTimerDisplay();
+  }
 
-  // Show modal function
-  function showModal() {
-    // Update session duration text
-    sessionDurationText.textContent = `Session duration: ${formatSessionDuration(
-      seconds
-    )}`;
-
-    windowModal.style.display = "flex";
-    overlay.style.display = "block";
-
-    // Add entrance animation for modal if GSAP is available
-    if (typeof gsap !== "undefined") {
-      gsap.fromTo(
-        windowModal,
-        { y: -30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" }
-      );
+  function togglePause() {
+    isPaused = !isPaused;
+    pauseBtn.textContent = isPaused ? "Resume" : "Pause";
+    if (!isPaused) {
+      pauseModal.classList.remove("show");
+      pauseModal.style.display = "none";
     } else {
-      windowModal.style.opacity = 1;
+      pauseModal.classList.add("show");
+      pauseModal.style.display = "block";
     }
-
-    // Reset selected reason
-    selectedReason = null;
-    resetCardSelection();
   }
 
-  // Hide modal function
-  function hideModal() {
-    if (typeof gsap !== "undefined") {
-      gsap.to(windowModal, {
-        y: -30,
-        opacity: 0,
-        duration: 0.3,
-        ease: "power2.in",
-        onComplete: () => {
-          windowModal.style.display = "none";
-          overlay.style.display = "none";
-        },
+  async function fetchClassStatus() {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(`http://localhost:80/api/class/${currentClassId}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
       });
-    } else {
-      windowModal.style.opacity = 0;
-      windowModal.style.display = "none";
-      overlay.style.display = "none";
+
+      if (!response.ok) throw new Error("Failed to fetch class status");
+
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error("[Fetch Class Error]", err);
+      return null;
     }
   }
 
-  // Reset card selection
-  function resetCardSelection() {
-    reasonCards.forEach((card) => {
-      if (typeof gsap !== "undefined") {
-        gsap.to(card, {
-          backgroundColor: "var(--border)",
-          color: "var(--text-secondary)",
-          duration: 0.3,
-          y: 0,
-        });
+  async function updateClassUI() {
+    const classData = await fetchClassStatus();
+    if (!classData) return;
+
+    // Set user role and update UI accordingly
+    const { currentUser, otherUser, userRole, classInfo } = classData;
+    const isTeacher = userRole === "teacher";
+    
+    // Update user displays
+    if (isTeacher) {
+      // Teacher on left
+      document.querySelector(".user-left .user-name").textContent = currentUser.username;
+      document.querySelector(".user-left .profile-image img").src = currentUser.profilePicture;
+      document.querySelector(".user-left .role").textContent = "Teacher";
+
+      document.querySelector(".user-right .user-name").textContent = otherUser.username;
+      document.querySelector(".user-right .profile-image img").src = otherUser.profilePicture;
+      document.querySelector(".user-right .role").textContent = "Learner";
+    } else {
+      // Student on right
+      document.querySelector(".user-right .user-name").textContent = currentUser.username;
+      document.querySelector(".user-right .profile-image img").src = currentUser.profilePicture;
+      document.querySelector(".user-right .role").textContent = "Learner";
+
+      document.querySelector(".user-left .user-name").textContent = otherUser.username;
+      document.querySelector(".user-left .profile-image img").src = otherUser.profilePicture;
+      document.querySelector(".user-left .role").textContent = "Teacher";
+    }
+
+    // Update readiness indicators
+    teacherReadyIndicator.textContent = classData.classInfo.teacherReady ? "✅" : "⏳";
+    studentReadyIndicator.textContent = classData.classInfo.studentReady ? "✅" : "⏳";
+
+    // Set timer to elapsed time from server
+    seconds = classData.classInfo.elapsedTime || 0;
+    updateTimerDisplay();
+    pointsDisplay.textContent = `Points: ${classData.classInfo.pointsEarned || 0}`;
+
+    // Show/hide appropriate buttons based on role and status
+    const currentUserReadyBtn = isTeacher ? readyBtn1 : readyBtn2;
+    const otherUserReadyBtn = isTeacher ? readyBtn2 : readyBtn1;
+
+    otherUserReadyBtn.style.display = "none";
+    currentUserReadyBtn.style.display = "block";
+
+    if (classData.classInfo.isActive) {
+      // Class is active
+      if (!timer) startTimer();
+      currentUserReadyBtn.style.display = "none";
+      
+      if (isTeacher) {
+        pauseBtn.style.display = "inline-block";
+        stopBtn.style.display = "inline-block";
+      }
+
+      if (classData.classInfo.isPaused) {
+        if (!isPaused) togglePause();
       } else {
-        card.style.backgroundColor = "var(--border)";
-        card.style.color = "var(--text-secondary)";
-        card.style.transform = "translateY(0)";
+        if (isPaused) togglePause();
       }
-    });
+    } else if (classData.classInfo.teacherReady || classData.classInfo.studentReady) {
+      // Waiting for other user to be ready
+      currentUserReadyBtn.disabled = true;
+      currentUserReadyBtn.textContent = "Waiting for other user...";
+      pauseBtn.style.display = "none";
+      stopBtn.style.display = "none";
+    } else {
+      // Class not started
+      currentUserReadyBtn.disabled = false;
+      currentUserReadyBtn.textContent = "Ready";
+      pauseBtn.style.display = "none";
+      stopBtn.style.display = "none";
+    }
   }
 
-  // Initialize GSAP hover animations for cards if GSAP is available
-  function initCardAnimations() {
-    if (typeof gsap === "undefined") return;
+  // Initialize UI
+  async function initialize() {
+    await updateClassUI();
+    
+    const isTeacher = userRole === "teacher";
+    const currentUserReadyBtn = isTeacher ? readyBtn1 : readyBtn2;
 
-    reasonCards.forEach((card) => {
-      // Create hover animations
-      card.addEventListener("mouseenter", () => {
-        if (card.dataset.value !== selectedReason) {
-          gsap.to(card, {
-            y: -5,
-            duration: 0.2,
-            ease: "power1.out",
-            boxShadow: "0 8px 15px var(--shadow)",
-          });
-        }
-      });
-
-      card.addEventListener("mouseleave", () => {
-        if (card.dataset.value !== selectedReason) {
-          gsap.to(card, {
-            y: 0,
-            duration: 0.2,
-            ease: "power1.in",
-            boxShadow: "2px 5px 10px var(--shadow)",
-          });
-        }
-      });
-    });
-  }
-
-  // Event Listeners for user ready buttons
-  user1Button.addEventListener("click", function () {
-    const action = this.dataset.action;
-    if (action === "start" || action === "resume") {
-      setUserReady(users.user1);
-    }
-  });
-
-  user2Button.addEventListener("click", function () {
-    const action = this.dataset.action;
-    if (action === "start" || action === "resume") {
-      setUserReady(users.user2);
-    }
-  });
-
-  // Start button event listener
-  startButton.addEventListener("click", function () {
-    if (users.user1.isReady && users.user2.isReady && !isRunning) {
-      startTimer();
-    }
-  });
-
-  // Pause button event listener
-  pauseButton.addEventListener("click", function () {
-    pauseTimer(currentUser);
-  });
-
-  // Resume button event listener
-  resumeButton.addEventListener("click", function () {
-    if (users.user1.isReady && users.user2.isReady && isPaused) {
-      resumeTimer();
-    }
-  });
-
-  // End button event listener - MODIFIED TO ONLY SHOW MODAL
-  endButton.addEventListener("click", function () {
-    // Instead of ending right away, show the modal for confirmation
-    showModal();
-  });
-
-  // Close modal when X is clicked
-  closeButton.addEventListener("click", hideModal);
-
-  // Close modal when cancel button is clicked
-  cancelButton.addEventListener("click", hideModal);
-
-  // Handle end session confirmation - THIS IS WHAT ACTUALLY ENDS THE SESSION
-  confirmEndButton.addEventListener("click", function () {
-    endTimer(currentUser);
-    hideModal();
-  });
-
-  // Close modal if clicked outside
-  overlay.addEventListener("click", hideModal);
-
-  // Selected reason
-  let selectedReason = null;
-
-  // Reason card selection with enhanced animations
-  reasonCards.forEach((card) => {
-    card.addEventListener("click", function () {
-      // Reset all cards first
-      resetCardSelection();
-
-      // Store selected reason
-      selectedReason = this.dataset.value;
-
-      if (typeof gsap !== "undefined") {
-        // Highlight selected card with animation
-        gsap.to(this, {
-          backgroundColor: "var(--primary)",
-          color: "white",
-          y: -3,
-          scale: 1.03,
-          duration: 0.3,
-          ease: "back.out(1.2)",
-          boxShadow: "0 8px 20px var(--shadow)",
-        });
-        othericon.style.color = "var(--text-primary)";
-        if (this.id === "card4" && othericon) {
-          othericon.style.color = "white";
-        }
-
-        // Add a small pulse animation to indicate selection
-        gsap.fromTo(
-          this,
-          { boxShadow: "0 0 0 4px rgba(124, 58, 237, 0.5)" },
-          {
-            boxShadow: "0 8px 20px var(--shadow)",
-            duration: 0.6,
-            ease: "power1.out",
+    // Set up ready button handler
+    currentUserReadyBtn.addEventListener("click", async () => {
+      const token = localStorage.getItem("token");
+      try {
+        const response = await fetch(`http://localhost:80/api/class/${currentClassId}/ready`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
           }
-        );
-      } else {
-        // Fallback for when GSAP is not available
-        this.style.backgroundColor = "var(--primary-dark)";
-        this.style.color = "white";
-        this.style.transform = "translateY(-3px) scale(1.03)";
-        this.style.boxShadow = "0 8px 20px var(--shadow)";
+        });
+        
+        if (!response.ok) throw new Error("Failed to set ready status");
+        
+        await updateClassUI();
+      } catch (err) {
+        console.error(err);
       }
     });
-  });
 
-  // Initialize
-  updateTimerDisplay();
-  startButton.disabled = true;
+    // Set up pause/resume button (teacher only)
+    if (isTeacher) {
+      pauseBtn.addEventListener("click", async () => {
+        const token = localStorage.getItem("token");
+        try {
+          const response = await fetch(`http://localhost:80/api/class/${currentClassId}/pause`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              pause: !isPaused
+            })
+          });
+          
+          if (!response.ok) throw new Error("Failed to update pause status");
+          
+          togglePause();
+        } catch (err) {
+          console.error(err);
+        }
+      });
 
-  // Helper function to update start button state
-  function updateStartButtonState() {
-    startButton.disabled = !(users.user1.isReady && users.user2.isReady);
+      stopBtn.addEventListener("click", async () => {
+        const token = localStorage.getItem("token");
+        try {
+          const response = await fetch(`http://localhost:80/api/class/${currentClassId}/end`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+            }
+          });
+          
+          if (!response.ok) throw new Error("Failed to end session");
+          
+          stopTimer();
+          pauseBtn.style.display = "none";
+          stopBtn.style.display = "none";
+        } catch (err) {
+          console.error(err);
+        }
+      });
+    }
+
+    // Poll for updates every 5 seconds
+    setInterval(updateClassUI, 5000);
   }
 
-  // Update start button when user ready state changes
-  const startUserReadyObserver = new MutationObserver(updateStartButtonState);
-  startUserReadyObserver.observe(user1ReadyIndicator, {
-    attributes: true,
-    childList: true,
-  });
-  startUserReadyObserver.observe(user2ReadyIndicator, {
-    attributes: true,
-    childList: true,
-  });
-
-  // Initialize card animations if GSAP is available
-  if (typeof gsap !== "undefined") {
-    initCardAnimations();
-  }
+  initialize();
 });
 
-//get class info w display it fel page
-async function loadClassSession() {
-  try {
-    const classId = localStorage.getItem("currentClassId");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const timerDisplay = document.getElementById("timer");
+  const readyBtn1 = document.getElementById("user1-button");
+  const readyBtn2 = document.getElementById("user2-button"); 
+  const pauseBtn = document.getElementById("pause-button");
+  const stopBtn = document.getElementById("end-button");
+  const pauseModal = document.getElementById("pauseModal");
+ const teacherReadyIndicator = document.getElementById("user1-ready");
+ const studentReadyIndicator = document.getElementById("user2-ready");
+
+
+
+  let timer = null;
+  let seconds = 0;
+  let isPaused = false;
+
+  // Helper to format time mm:ss
+  function formatTime(s) {
+    const min = Math.floor(s / 60).toString().padStart(2, "0");
+    const sec = (s % 60).toString().padStart(2, "0");
+    return `${min}:${sec}`;
+  }
+
+  function updateTimerDisplay() {
+    timerDisplay.textContent = formatTime(seconds);
+  }
+
+  function startTimer() {
+    if (timer) return; // already running
+    timer = setInterval(() => {
+      if (!isPaused) {
+        seconds++;
+        updateTimerDisplay();
+      }
+    }, 1000);
+  }
+
+  function stopTimer() {
+    clearInterval(timer);
+    timer = null;
+    seconds = 0;
+    updateTimerDisplay();
+  }
+
+  function togglePause() {
+    isPaused = !isPaused;
+    pauseBtn.textContent = isPaused ? "Resume" : "Pause";
+    if (!isPaused) {
+      pauseModal.classList.remove("show");
+      pauseModal.style.display = "none";
+    }
+  }
+
+  // Fetch session status and readiness from backend
+  async function checkClassStatus() {
+    const ID_class = localStorage.getItem('currentClassId');
     const token = localStorage.getItem("token");
 
-    if (!classId) {
-      console.error("No class ID found in localStorage");
-      alert(
-        'Missing class ID. Set localStorage.setItem("currentClassId", "YOUR_CLASS_ID")'
-      );
-      return;
+    try {
+      const response = await fetch(`http://localhost:80/api/class/${ID_class}/status`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch status");
+
+      const data = await response.json();
+
+      // Update readiness indicators
+      teacherReadyIndicator.textContent = data.ready.teacher ? "✅" : "⏳";
+      studentReadyIndicator.textContent = data.ready.student ? "✅" : "⏳";
+
+      // Update UI based on status
+      function updateReadyButtonState(button, status) {
+        switch (status) {
+          case "waiting": {
+            button.textContent = "Waiting for other user...";
+            button.disabled = true;
+            pauseBtn.style.display = "none";
+            stopBtn.style.display = "none";
+            break;
+          }
+          case "active": {
+            if (!timer) startTimer();
+            button.style.display = "none";
+            pauseBtn.style.display = "inline-block";
+            stopBtn.style.display = "inline-block";
+            pauseModal.classList.remove("show");
+            pauseModal.style.display = "none";
+            break;
+          }
+          case "paused": {
+            if (!isPaused) {
+              togglePause();
+              pauseModal.classList.add("show");
+              pauseModal.style.display = "block";
+            }
+            break;
+          }
+          case "ended": {
+            stopTimer();
+            alert("Session has ended.");
+            button.disabled = true;
+            pauseBtn.style.display = "none";
+            stopBtn.style.display = "none";
+            break;
+          }
+        }
+      }
+      updateReadyButtonState(readyBtn1, data.status);
+      updateReadyButtonState(readyBtn2, data.status);
+
+      // Example usage (you may want to call this for both buttons based on role/status)
+      // updateReadyButtonState(readyBtn1, data.status);
+      // updateReadyButtonState(readyBtn2, data.status);
+
+    } catch (err) {
+      console.error(err);
     }
-
-    if (!token) {
-      console.error("No token found in localStorage");
-      alert("You must log in first to get the token");
-      return;
-    }
-
-    const response = await fetch(`http://localhost:80/api/class/${classId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to load class session: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log("✅ Class session loaded:", data);
-
-    const { currentUser, otherUser, userRole, classInfo } = data;
-
-if (userRole === "teacher") {
-  // Teacher on left
-  document.querySelector(".user-left .user-name").textContent = currentUser.username;
-  document.querySelector(".user-left .profile-image img").src = currentUser.profilePicture;
-  document.querySelector(".user-left .role").textContent = "Teacher";
-
-  document.querySelector(".user-right .user-name").textContent = otherUser.username;
-  document.querySelector(".user-right .profile-image img").src = otherUser.profilePicture;
-  document.querySelector(".user-right .role").textContent = "Learner";
-} else {
-  // Student on right
-  document.querySelector(".user-right .user-name").textContent = currentUser.username;
-  document.querySelector(".user-right .profile-image img").src = currentUser.profilePicture;
-  document.querySelector(".user-right .role").textContent = "Learner";
-
-  document.querySelector(".user-left .user-name").textContent = otherUser.username;
-  document.querySelector(".user-left .profile-image img").src = otherUser.profilePicture;
-  document.querySelector(".user-left .role").textContent = "Teacher";
-}
-    function formatTime(seconds) {
-      const mins = String(Math.floor(seconds / 60)).padStart(2, "0");
-      const secs = String(seconds % 60).padStart(2, "0");
-      return `${mins}:${secs}`;
-    }
-    document.querySelector(".timer-text").textContent = formatTime(
-      data.classInfo.elapsedTime
-    );
-    document.querySelector(
-      ".points-text"
-    ).textContent = `${data.classInfo.pointsEarned} points earned`;
-  } catch (error) {
-    console.error("[loadClassSession Error]", error);
-    alert("Failed to load class session. See console for details.");
   }
-}
-loadClassSession();
+
+  // Add event listeners for both ready buttons
+  readyBtn1.addEventListener("click", async () => {
+    readyBtn1.disabled = true;
+    readyBtn1.textContent = "Ready ✓";
+    await checkClassStatus();
+  });
+
+  readyBtn2.addEventListener("click", async () => {
+    readyBtn2.disabled = true;
+    readyBtn2.textContent = "Ready ✓";
+    await checkClassStatus();
+  });
+
+  if (!pauseBtn || !stopBtn) {
+    console.error("Pause or Stop button not found");
+    return;
+  }
+
+  pauseBtn.addEventListener("click", async () => {
+    togglePause();
+    // TODO: call backend API to pause/resume session here
+  });
+
+  stopBtn.addEventListener("click", async () => {
+    stopTimer();
+    alert("Session stopped.");
+    // TODO: call backend API to stop session here
+  });
+
+  // Initial setup
+  updateTimerDisplay();
+  pauseBtn.style.display = "none";
+  stopBtn.style.display = "none";
+
+  // Poll status every 5 seconds to sync with server
+  checkClassStatus();
+  setInterval(checkClassStatus, 5000);
+});
+//get class info w display it fel page
+
+
+
+
+
 // Enhanced dark mode functionality - works with external toggle
 document.addEventListener("DOMContentLoaded", function () {
   const root = document.documentElement;
@@ -1103,6 +996,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Clear form
       clearFeedbackForm();
+      
 
       return result;
     } catch (error) {
