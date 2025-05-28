@@ -25,9 +25,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const readyBtn2 = document.getElementById("user2-button"); 
   const pauseBtn = document.getElementById("pause-button");
   const stopBtn = document.getElementById("end-button");
+  const startBtn = document.getElementById("start-button");
+  const resumeBtn = document.getElementById("resume-button");
   const teacherReadyIndicator = document.getElementById("user1-ready");
   const studentReadyIndicator = document.getElementById("user2-ready");
   const pointsDisplay = document.querySelector(".points-text");
+  const backButton = document.getElementById("backButton");
+  const uploadButton = document.getElementById("upload-button");
+  const fileInput = document.getElementById("fileInput");
+  const filesButton = document.getElementById("files-button");
+  const filesModal = document.getElementById("filesModal");
+  const closeFilesModal = document.getElementById("closeFilesModal");
+  const fileList = document.getElementById("fileList");
   
   // Modal elements
   const endSessionModal = document.querySelector(".window");
@@ -38,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cancelEndBtn = document.querySelector(".window .btn:nth-child(1)");
   const sessionDurationText = document.querySelector(".window p:nth-of-type(2)");
   const reasonCards = document.querySelectorAll(".card");
+  const closeModalBtn = document.querySelector(".window .x");
   
   // Feedback elements
   const feedbackContainer = document.querySelector(".feedback-container");
@@ -57,6 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let lastServerTime = 0;
   let classData = null;
   let selectedReason = null;
+  let points = 0;
+  let lastPointSecond = 0;
+  let uploadedFiles = [];
 
   // Utility functions
   function formatTime(s) {
@@ -81,7 +94,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function updateTimerDisplay() {
     timerDisplay.textContent = formatTime(seconds);
-    pointsDisplay.textContent = `${Math.floor(seconds / 2)} points earned`;
+    
+    // Award 1 point every 15 minutes (900 seconds)
+    if (seconds - lastPointSecond >= 900) {
+      points++;
+      lastPointSecond = seconds - (seconds % 900);
+      pointsDisplay.textContent = `${points} point${points !== 1 ? 's' : ''} earned`;
+    }
   }
 
   function startTimer() {
@@ -92,20 +111,40 @@ document.addEventListener("DOMContentLoaded", () => {
         updateTimerDisplay();
       }
     }, 1000);
+    
+    // Update button visibility
+    startBtn.style.display = "none";
+    pauseBtn.style.display = "inline-flex";
+    stopBtn.style.display = "inline-flex";
+    resumeBtn.style.display = "none";
   }
 
   function stopTimer() {
     clearInterval(timer);
     timer = null;
     seconds = 0;
+    points = 0;
+    lastPointSecond = 0;
     updateTimerDisplay();
+    
+    // Reset button visibility
+    startBtn.style.display = "none"; // Hide start button since we're using ready system
+    pauseBtn.style.display = "none";
+    stopBtn.style.display = "none";
+    resumeBtn.style.display = "none";
   }
 
   function togglePause() {
     isPaused = !isPaused;
-    pauseBtn.textContent = isPaused ? "Resume" : "Pause";
-    pauseBtn.style.display = isPaused ? "none" : "inline-flex";
-    document.getElementById("resume-button").style.display = isPaused ? "inline-flex" : "none";
+    
+    // Update button visibility based on pause state
+    if (isPaused) {
+      pauseBtn.style.display = "none";
+      resumeBtn.style.display = "inline-flex";
+    } else {
+      pauseBtn.style.display = "inline-flex";
+      resumeBtn.style.display = "none";
+    }
   }
 
   // Modal functions
@@ -164,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showFeedback() {
     feedbackDuration.textContent = formatDetailedTime(seconds);
-    feedbackPoints.textContent = Math.floor(seconds / 2);
+    feedbackPoints.textContent = points;
     feedbackContainer.style.display = "block";
     modalOverlay.style.display = "block";
   }
@@ -172,6 +211,52 @@ document.addEventListener("DOMContentLoaded", () => {
   function hideFeedback() {
     feedbackContainer.style.display = "none";
     modalOverlay.style.display = "none";
+  }
+
+  // File handling functions
+  function handleFileUpload(event) {
+    const files = Array.from(event.target.files);
+    if (files.length === 0) return;
+    
+    uploadedFiles = [...uploadedFiles, ...files];
+    updateFileList();
+    showToast(`${files.length} file(s) uploaded successfully`, "success");
+    fileInput.value = ''; // Reset input
+  }
+
+  function updateFileList() {
+    fileList.innerHTML = '';
+    uploadedFiles.forEach((file, index) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span>${file.name}</span>
+        <span class="file-size">(${(file.size / 1024).toFixed(2)} KB)</span>
+        <button class="delete-file" data-index="${index}">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      `;
+      fileList.appendChild(li);
+    });
+    
+    // Add event listeners to delete buttons
+    document.querySelectorAll('.delete-file').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const index = parseInt(e.currentTarget.getAttribute('data-index'));
+        uploadedFiles.splice(index, 1);
+        updateFileList();
+        showToast('File removed', 'info');
+      });
+    });
+  }
+
+  function showFilesModal() {
+    filesModal.style.display = 'block';
+    modalOverlay.style.display = 'block';
+  }
+
+  function hideFilesModal() {
+    filesModal.style.display = 'none';
+    modalOverlay.style.display = 'none';
   }
 
   // API functions
@@ -237,9 +322,9 @@ document.addEventListener("DOMContentLoaded", () => {
       
       pauseBtn.style.display = "inline-flex";
       stopBtn.style.display = "inline-flex";
-      document.getElementById("start-button").style.display = "none";
+      startBtn.style.display = "none";
 
-      if (classData.classInfo.isPaused !== isPaused) {
+      if (classData.classInfo.isPaused) {
         togglePause();
       }
     } else {
@@ -250,15 +335,16 @@ document.addEventListener("DOMContentLoaded", () => {
       
       pauseBtn.style.display = "none";
       stopBtn.style.display = "none";
-      document.getElementById("start-button").style.display = "inline-flex";
+      startBtn.style.display = "none"; // Hide start button since we're using ready system
     }
   }
 
   async function endClassSession() {
     const token = localStorage.getItem("token");
     try {
-      const hours = Math.max(0.01, parseFloat((seconds / 3600).toFixed(4)));
-      const sp = Math.max(1, Math.floor(seconds / 2));
+      // Calculate hours and points (1 point per 15 minutes)
+      const hours = parseFloat((seconds / 3600).toFixed(4));
+      const sp = Math.floor(seconds / 900); // 900 seconds = 15 minutes
       
       const response = await fetch(`http://localhost:80/api/class/${currentClassId}/stop`, {
         method: "POST",
@@ -281,6 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await response.json();
       console.log("Session ended successfully", result);
       
+      // Reset UI
       stopTimer();
       pauseBtn.style.display = "none";
       stopBtn.style.display = "none";
@@ -296,7 +383,6 @@ document.addEventListener("DOMContentLoaded", () => {
       
     } catch (err) {
       console.error("Error ending session:", err);
-      // Show error toast
       showToast(`Error: ${err.message}`, "error");
     }
   }
@@ -346,40 +432,42 @@ document.addEventListener("DOMContentLoaded", () => {
             "Authorization": `Bearer ${localStorage.getItem("token")}`
           },
           body: JSON.stringify({ 
-            pause: !isPaused,
+            pause: true,
             initiatedBy: userRole
           })
         });
         
         if (!response.ok) throw new Error("Pause request failed");
         togglePause();
+        showToast("Session paused", "success");
       } catch (err) {
         console.error(err);
         showToast("Failed to pause session", "error");
       }
     });
 
-    document.getElementById("resume-button").addEventListener("click", async () => {
+    resumeBtn.addEventListener("click", async () => {
       try {
-        const response = await fetch(`http://localhost:80/api/class/${currentClassId}/pause`, {
+        // Using the ready API to resume
+        const response = await fetch(`http://localhost:80/api/class/${currentClassId}/ready`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${localStorage.getItem("token")}`
-          },
-          body: JSON.stringify({ 
-            pause: false,
-            initiatedBy: userRole
-          })
+          }
         });
         
         if (!response.ok) throw new Error("Resume request failed");
         togglePause();
+        showToast("Session resumed", "success");
       } catch (err) {
         console.error(err);
         showToast("Failed to resume session", "error");
       }
     });
+
+    // Remove start button functionality since we're using ready system
+    startBtn.style.display = "none";
 
     stopBtn.addEventListener("click", showEndSessionModal);
 
@@ -394,7 +482,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     cancelEndBtn.addEventListener("click", hideEndSessionModal);
-    modalOverlay.addEventListener("click", hideEndSessionModal);
+    closeModalBtn.addEventListener("click", hideEndSessionModal);
+    modalOverlay.addEventListener("click", (e) => {
+      if (e.target === modalOverlay) {
+        hideEndSessionModal();
+      }
+    });
 
     // Reason card selection
     reasonCards.forEach(card => {
@@ -415,6 +508,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           this.style.backgroundColor = "var(--primary)";
           this.style.color = "white";
+          this.style.transform = "translateY(-3px) scale(1.03)";
+          this.style.boxShadow = "0 8px 20px var(--shadow)";
         }
       });
     });
@@ -463,6 +558,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     closeFeedbackBtn.addEventListener("click", hideFeedback);
+
+    // File handling
+    uploadButton.addEventListener("click", () => fileInput.click());
+    fileInput.addEventListener("change", handleFileUpload);
+    filesButton.addEventListener("click", showFilesModal);
+    closeFilesModal.addEventListener("click", hideFilesModal);
+
+    // Back button
+    backButton.addEventListener("click", () => {
+      window.history.back();
+    });
   }
 
   // Initialization
