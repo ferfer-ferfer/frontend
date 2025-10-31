@@ -1,46 +1,81 @@
 <!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="Utf-8">
-        <meta name="viewport">
-        <title>page paiment </title>
-    </head>
-    <body>
-         
-        <h1> Mon panier</h1>
-        <table border="1
-    ">
-            <tr>
-                <th>  laformation</th>
-                <th> la duree</th>
-                <th> le prix</th>
-                <th> formateur</th>
-            </tr>
-            <tr>
-                <td> graphics design</td>
-                <td>  2 moins  </td>
-                <td>   100000 DA</td>
-                <td> M.belhadi</td>
-            </tr>
-              <tr>
-                <td>development web</td>
-                <td>  1 moins  </td>
-                <td>   200000 DA</td>
-                <td> M.belhadi</td>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Cart</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/pa.css" />
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#courses-list">Courses</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#"><img src="img/Search.png" class="bar" alt=""></a></li>
+        <li>|</li>
+        <li><a href="panier.html"><img src="img/Group 68.png" class="bar" alt=""></a></li>
+        <li><a href="#"><img src="img/Doorbell.png" class="bar" alt=""></a></li>
+        <li><a href="#"><img src="img/User.png" class="bar" alt=""></a></li>
+      </ul>
+    </nav>
+  </header>
 
-            </tr>
-            
+  <main>
+    <section class="cart">
+      <div class="cart-items box">
+        <h2>My Cart</h2>
+        <table>
+          <thead>
             <tr>
-                <td>development web</td>
-                <td>  1moins  </td>
-                <td>   200000 DA</td>
-                <td> M.belhadi</td>
-                
+              <th>Course</th>
+              <th>Duration</th>
+              <th>Price</th>
+              <th>Instructor</th>
+              <th>Action</th>
             </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Graphic Design</td>
+              <td>2 months</td>
+              <td>10,000 DA</td>
+              <td>Mr. Belhadi</td>
+              <td><i class="delete"><img src="img/Delete.png" alt="Delete"></i></td>
+            </tr>
+            <tr>
+              <td>Web Development</td>
+              <td>1 month</td>
+              <td>20,000 DA</td>
+              <td>Mr. Menouer</td>
+              <td><i class="delete"><img src="img/Delete.png" alt="Delete"></i></td>
+            </tr>
+            <tr>
+              <td>Cyber Security</td>
+              <td>3 months</td>
+              <td>20,000 DA</td>
+              <td>Mr. Belhadi</td>
+              <td><i class="delete"><img src="img/Delete.png" alt="Delete"></i></td>
+            </tr>
+          </tbody>
         </table>
-        <div class="total">
-            <h3>Total du panier </h3>
-            <p><strong> 500000 DA </strong></p>
+      </div>
+
+      <div class="summary box">
+        <h3>Order Summary</h3>
+        <div>
+          <p>10,000 DA</p>
+          <p>+ 20,000 DA</p>
+          <p>+ 20,000 DA</p>
+          <hr >
+          <h4>= 50,000 DA</h4>
         </div>
-        <button id="commande"> passer la commande</button>
-    </body>
+        <a href="paiment.html" class="button">Buy Now</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

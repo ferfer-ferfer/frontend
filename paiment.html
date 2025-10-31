@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/pa.css" />
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#courses-list">Courses</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#"><img src="img/Search.png" class="bar" alt=""></a></li>
+        <li>|</li>
+        <li><a href="panier.html"><img src="img/Group 68.png" class="bar" alt=""></a></li>
+        <li><a href="#"><img src="img/Doorbell.png" class="bar" alt=""></a></li>
+        <li><a href="#"><img src="img/User.png" class="bar" alt=""></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="payment-container">
+    <div class="payment-info box">
+      <h3>Payment Information</h3>
+      <input type="text" placeholder="Full Name" required>
+      <input type="tel" placeholder="Phone Number" required>
+      <input type="email" placeholder="Email" required>
+    </div>
+
+    <div class="order-summary box">
+      <h3>Your Order</h3>
+
+      <div class="order-item">
+        <img src="img/placeholder.png" alt="">
+        <div class="order-item-details">
+          <p>Graphic Design</p>
+          <small>Qty 1</small>
+        </div>
+        <p>8000 DA</p>
+      </div>
+
+      <div class="order-item">
+        <img src="img/placeholder.png" alt="">
+        <div class="order-item-details">
+          <p>Digital Marketing</p>
+          <small>Qty 1</small>
+        </div>
+        <p>10000 DA</p>
+      </div>
+
+      <div class="total-line"></div>
+      <div class="total">Total: 18000 DA</div>
+
+      <label class="payment-method">
+        <input type="radio" name="method" checked>
+        <span>CIB/EDAHABIA (Slick-Pay)</span>
+      </label>
+
+      <label class="payment-method">
+        <input type="radio" name="method">
+        <span>CCP/BaridiMob</span>
+      </label>
+
+      <label class="payment-method">
+        <input type="radio" name="method">
+        <span>WhatsApp Payment</span>
+      </label>
+
+      <button class="button">Place Your Order</button>
+    </div>
+  </main>
+</body>
+</html>

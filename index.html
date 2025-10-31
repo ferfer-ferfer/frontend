@@ -1,154 +1,395 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SWAPA | Skills Exchange Platform</title>
-    <link rel="website icon" href="icons/Logo.png">
-    <link rel="stylesheet" href="styles/style.css">
-    <link rel="stylesheet" href="styles/var2.css">
-</head>
+<html lang="fr">
+    <head>
+        <meta charset="Utf-8">
+        <meta name="viewport">
+        <title>home page</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+      /* Reviews Section */
+/* Section styling */
+#reviews {
+  text-align: center;
+  padding: 80px 0;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Title */
+#reviews h2 {
+  font-size: 2.5em;
+  font-weight: 800;
+  margin-bottom: 40px;
+}
+
+#reviews h2 span {
+  color: #00d4ff;
+}
+
+/* Glowing box container */
+#reviews .reviews-box {
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid #00d4ff;
+  border-radius: 25px;
+  padding: 40px 25px;
+  width: 80%;
+  margin: 0 auto;
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.25);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+}
+
+#reviews .reviews-rev {
+    display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 60px;
+  justify-items: center;
+  margin-bottom: 60px;
+}
+
+/* Review cards */
+#reviews .review {
+  background: rgba(255, 255, 255, 0.9);
+  color: #111;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 15px;
+  text-align: left;
+  box-shadow: 0 0 15px rgba(0, 200, 255, 0.25);
+  transition: 0.3s;
+  
+}
+
+#reviews .review:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px rgba(0, 200, 255, 0.4);
+}
+
+/* Reviewer image */
+#reviews .review img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #00c8ff;
+  margin-bottom: 10px;
+}
+
+/* Review text */
+#reviews .review p {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* See more button */
+#reviews .see-more {
+  background: #00d5ff;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 32px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 15px;
+  box-shadow: 0 0 15px rgba(0, 200, 255, 0.6);
+}
+
+#reviews .see-more:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 25px rgba(0, 200, 255, 0.9);
+}
+
+/* Join text */
+#reviews h3 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 35px;
+}
+
+#reviews h3 span {
+  color: #00d5ff;
+  font-weight: 600;
+}
+
+
+    </style>
+    </head>
 <body>
-    
-    <header>
-        <div class="logo">
-            <a href="index.html"><img src="icons/Logo.png" alt=""></a>
-            <a href="index.html">SWAPA</a>
-        </div>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#courses-list">Courses</a></li>
+        <li><a href="aboutas.html">About Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="login.html" class="button">Sign In</a></li>
+      </ul>
+    </nav>
+  </header>
 
-        <ul class="nav-list">
-            <a href="#home"><li>Home</li></a>
-            <a href="#about"><li>About</li></a>
-            <a href="#feature"><li>Features</li></a>
-            <a href="#why"><li>Showcase</li></a>
-            <a href="#contact"><li>Contact us</li></a>
-        </ul>
+  <section id="part1">
+    <div class="left">
+    <h1>TrainUp</h1>
+    <p> All Your Learning <span>in One Platform</span></p>
+    <div class="buttons">
+      <a href="#part3" class="primary">Get Started</a>
+      <a href="login.html" class="secondary">Sign Up</a>
+    </div>
+  </div>
+  <div class="right">
+    <img src="img/photo_2025-10-27_12-19-11.jpg" alt="TrainUp Platform" width="300px">
+  </div>
+  </section>
 
-        <div class="header-right">
-            <label class="switch">
-                <input id="checkbox" type="checkbox" id="theme-toggle-icon"/>
-                <span class="slider">
-                  <div class="star star_1"></div>
-                  <div class="star star_2"></div>
-                  <div class="star star_3"></div>
-                  <svg viewBox="0 0 16 16" class="cloud_1 cloud">
-                    <path
-                      transform="matrix(.77976 0 0 .78395-299.99-418.63)"
-                      fill="#fff"
-                      d="m391.84 540.91c-.421-.329-.949-.524-1.523-.524-1.351 0-2.451 1.084-2.485 2.435-1.395.526-2.388 1.88-2.388 3.466 0 1.874 1.385 3.423 3.182 3.667v.034h12.73v-.006c1.775-.104 3.182-1.584 3.182-3.395 0-1.747-1.309-3.186-2.994-3.379.007-.106.011-.214.011-.322 0-2.707-2.271-4.901-5.072-4.901-2.073 0-3.856 1.202-4.643 2.925"
-                    ></path>
-                  </svg>
-                </span>
-              </label>
-              
-            <a href="login-page.html" class="btn">Sign In</a>
-        </div>
+  <section id="part2">
+    <h2> <span>Our</span> Sponsors</h2>
+    <p></p>
 
-    </header>
-    <section class="hero" id="home">
-        <div class="hero-text">
-            <h1>Advance Your Career with SWAPA</h1>
-            <p>Enhance your professional growth by trading skills on Algeria's premier platform, empowering you through a community of expertise.</p>
-            <div style="display: flex; gap: 10px;">
-                <a href="login-page.html" class="btn">Join SWAPA Now</a>
-            </div>
-        </div>
-        <div class="img-container"><img src="assets/Cartoon_Style_Robot-removebg-preview.png" class="hero-img" alt=""></div>
-    </section>
+  </section>
+ 
+<section id="part3">
+  <h2><span>Our</span> courses</h2>
 
-    <section class="tagline">
-        <h2>Explore Growth</h2>
-        <h3>Connect. Learn. Grow</h3>
-    </section>
+  <div class="categorie">
+    <button class="active">All</button>
+    <button>Web Development</button>
+    <button>UI/UX Design</button>
+    <button>Digital Marketing</button>
+    <button>Languages</button>
+  </div>
 
-    <section id="about" class="about-us-section">
-        <h2>About Us</h2>
-        <h3>SWAPA is Algeria’s leading skill exchange platform, designed to help individuals connect, learn, and grow by trading skills. Our mission is to empower people through knowledge-sharing, fostering a vibrant and collaborative community.</h3>
-    </section>
-    
+  <div id="courses-list" class="courses-list">
+    <!-- Course 1 -->
+    <div class="course-box">
+      <div class="img-box">
+        <img src="img/photo_2025-10-27_12-18-51.jpg" alt="Graphic Design">
+      </div>
+      <div class="course-card">
+        <h3>Graphic Design</h3>
+        <p>by feriel menouer</p>
+        <p class="price">20000DZD</p>
+        <button class="see-more">See more</button>
+      </div>
+    </div>
 
+    <!-- Course 2 -->
+    <div class="course-box">
+      <div class="img-box">
+        <img src="img/photo_2025-10-27_12-19-04.jpg" alt="Digital Marketing">
+      </div>
+      <div class="course-card">
+        <h3>Digital Marketing</h3>
+        <p>by yasmine belhadi</p>
+        <p class="price">5000DZD</p>
+        <button class="see-more">See more</button>
+      </div>
+    </div>
 
-    <section class="features" id="feature">
-        <h2>Algeria's Premier Skill Swap Platform</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
-                <h3>Peer-to-Peer Skill Bartering</h3>
-                <p>Connect directly with peers in fields of interest and share your skills.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-wifi"></i></div>
-                <h3>Global Skill Network Access</h3>
-                <p>Connect with skill exchange communities across Algeria's major cities.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-user-shield"></i></div>
-                <h3>Secure Profile Verification</h3>
-                <p>Ensure trust and safety with our thorough profile verification system.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-list-ul"></i></div>
-                <h3>Customizable Skill Listings</h3>
-                <p>Create detailed and customized listings to showcase your unique skills.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-headset"></i></div>
-                <h3>24/7 Support and Assistance</h3>
-                <p>Get help anytime with our around-the-clock customer support team.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon"><i class="fa-solid fa-comments"></i></div>
-                <h3>Interactive Feedback System</h3>
-                <p>Enhance visibility with our transparent peer feedback and rating system.</p>
-            </div>
-        </div>
-    </section>
+    <!-- Course 3 -->
+    <div class="course-box">
+      <div class="img-box">
+        <img src="img/photo_2025-10-27_12-19-11.jpg" alt="Web Development">
+      </div>
+      <div class="course-card">
+        <h3>Web Development</h3>
+        <p>by adem menouer</p>
+        <p class="price">30000DZD</p>
+        <button class="see-more">See more</button>
+      </div>
+    </div>
 
+    <!-- Course 4 -->
+    <div class="course-box">
+      <div class="img-box">
+        <img src="img/photo_2025-10-27_12-18-51.jpg" alt="UI/UX Design">
+      </div>
+      <div class="course-card">
+        <h3>UI/UX Design</h3>
+        <p>by yassine belhadi</p>
+        <p class="price">8000DZD</p>
+        <button class="see-more">See more</button>
+      </div>
+    </div>
+  </div>
+<a class="see-all" href="course.html">See all courses</a> 
+</section>
 
 
-    <section class="showcase" id="why">
-        <h2>Showcase of Successful Skill Trades</h2>
-        <div class="showcase-grid">
-            <div class="showcase-card">
-                <div class="showcase-icon"><img src="icons/design-education-painting-svgrepo-com.png" alt=""></div>
-                <h3>Interactive Interface Design</h3>
-                <p>Our platform features an intuitive user experience design for the knowledge that enhances user engagement. The design was focused on simplicity and ease of use, ensuring everyone can navigate without confusion to create a modern website that stays with the brand's distinctive approach.</p>
-            </div>
-            <div class="showcase-card">
-                <div class="showcase-icon"><img src="icons/users-group-two-rounded-svgrepo-com.png" alt=""></div>
-                <h3>Comprehensive User Profiles</h3>
-                <p>Each user on our platform has a comprehensive profile showcasing their skills and interests, facilitating more accurate skill matches. The interactive cards for each user profile create a vibrant, engaging community of talented and engaged individuals.</p>
-            </div>
-            <div class="showcase-card">
-                <div class="showcase-icon"><img src="icons/optimize-svgrepo-com.png" alt=""></i></div>
-                <h3>Optimized User Experience</h3>
-                <p>Through multiple feedback sessions, we refined the user experience to be more straightforward and fluid. The tailored matching uses feedback to improve user-to-user offers, ensuring the most compatible skill exchanges occur, making the process intuitive and rewarding.</p>
-            </div>
-        </div>
-    </section>
-    
-    <section class="contact" id="contact">
-        <div class="contact-text">
-            <h2>Get in touch</h2>
-            <p>Send us a message and we'll get back to you as soon as we can ;) </p>
-            <img src="icons/Untitled_logo_1_free-file (1).png" alt="">
-        </div>
-        <form class="contact-form">
-            <input type="text" name="name" placeholder="Name" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <textarea name="message" placeholder="Message" rows="5" required></textarea>
-            <button type="submit">Send</button>
-              
-              
-        </form>
-    </section>
-    
+ 
 
 
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/gsap.min.js" integrity="sha512-f6bQMg6nkSRw/xfHw5BCbISe/dJjXrVGfz9BSDwhZtiErHwk7ifbmBEtF9vFW8UNIQPhV2uEFVyI/UHob9r7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.7/ScrollTrigger.min.js" integrity="sha512-AcqPGqrrAEtEwe+ADO5R8RbdFi7tuU7b/A2cJJH0Im0D18NRk5p5s4B3E5PMuO81KFw0ClN7J5SHVUJz7KOb0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="js/app.js"></script>
-    <script src="https://kit.fontawesome.com/3bedb2ab4f.js" crossorigin="anonymous"></script>
+<section id="certification">
+  <h2><span>Our</span> Certification</h2>
+
+  <div class="certification-list">
+    <div class="cert-card">
+      <div class="icon-box">
+        <img src="img/Group 28.png" alt="Certificate of Completion" />
+      </div>
+      <h3>Certificate of Completion</h3>
+      <p>Earn this certificate by completing your training modules successfully.</p>
+      <button class="see-more">Earn your Certification</button>
+    </div>
+
+    <div class="cert-card">
+      <div class="icon-box">
+        <img src="img/Graduation Cap.png" alt="Certificate of Achievement" />
+      </div>
+      <h3>Certificate of Achievement</h3>
+      <p>Show your dedication and excellence with an achievement certificate.</p>
+      <button class="see-more">Earn your Certification</button>
+    </div>
+
+    <div class="cert-card">
+      <div class="icon-box">
+        <img src="img/Trophy.png" alt="Professional Certification" />
+      </div>
+      <h3>Professional Certification</h3>
+      <p>Gain professional recognition for mastering your field of expertise.</p>
+      <button class="see-more">Earn your Certification</button>
+    </div>
+  </div>
+</section>
+
+
+  <section id="reviews">
+    <h2><span>Our</span> Reviews</h2>
+<div class="reviews-box">
+  <div class="reviews-rev">
+    <div class="review">
+      <img src="student1.jpg" alt="Student 1">
+      <p>“TrainUp helped me become confident in web design. ”</p>
+    </div>
+
+    <div class="review">
+      <img src="student2.jpg" alt="Student 2">
+      <p>“Great platform for  learning . The community is so helpful.”</p>
+    </div>
+</div>
+     <button class="see-more">See more</button>
+
+    <h2>Join 1,000+ Students Learning with <span>TrainUp</span></h2>
+</div>
+  </section>
+  
+
+<section id="part3">
+  <h2><span>Our</span> Promotions</h2>
+
+  <div class="categorie">
+    <button class="active">All</button>
+    <button>Web Development</button>
+    <button>UI/UX Design</button>
+    <button>Digital Marketing</button>
+  </div>
+
+  <div class="courses-list">
+    <!-- Promotion 1 -->
+    <div class="course-box">
+      <div class="img-box">
+        <img src="img/photo_2025-10-27_12-18-51.jpg" alt="Promotion 1">
+      </div>
+      <div class="course-card">
+        <h3>Web Dev Bundle</h3>
+        <p>Get 3 courses in one: HTML, CSS, and JS at a discounted rate!</p>
+        <p class="price">50000DA <span style="text-decoration: line-through; color: #ccc;">70000DA</span></p>
+        <button class="see-more">See more</button>
+      </div>
+    </div>
+
+    <!-- Promotion 2 -->
+    <div class="course-box">
+      <div class="img-box">
+        <img src="img/photo_2025-10-27_12-19-04.jpg" alt="Promotion 2">
+      </div>
+      <div class="course-card">
+        <h3>UI/UX Starter Pack</h3>
+        <p>Join our design bootcamp and get 20% off your first course.</p>
+        <p class="price">20000DA <span style="text-decoration: line-through; color: #ccc;">40000DA</span></p>
+        <button class="see-more">See more</button>
+      </div>
+    </div>
+
+    <!-- Promotion 3 -->
+    <div class="course-box">
+      <div class="img-box">
+        <img src="img/photo_2025-10-27_12-19-11.jpg" alt="Promotion 3">
+      </div>
+      <div class="course-card">
+        <h3>Digital Marketing Pro</h3>
+        <p>Enroll now and earn a free certification on course completion.</p>
+        <p class="price">25000DA <span style="text-decoration: line-through; color: #ccc;">50000DA</span></p>
+        <button class="see-more">See more</button>
+      </div>
+    </div>
+
+    <!-- Promotion 4 -->
+    <div class="course-box">
+      <div class="img-box">
+        <img src="img/photo_2025-10-27_12-19-11.jpg" alt="Promotion 4">
+      </div>
+      <div class="course-card">
+        <h3>Graphic Design Boost</h3>
+        <p>Learn Photoshop, Illustrator, and Figma with a 30% discount.</p>
+        <p class="price">15000DA <span style="text-decoration: line-through; color: #ccc;">22000DA</span></p>
+        <button class="see-more">See more</button>
+      </div>
+    </div>
+  </div>
+
+  <a class="see-all" href="promotions.html">See all promotions</a>
+</section>
+
+
+ <footer>
+  <div id="contact" class="footer-container">
+
+    <!-- LOGO & SOCIAL -->
+    <div class="footer-section logo-section">
+      <img src="img/logo.png" alt="TrainUp Logo" class="footer-logo">
+      <p>Empowering learners through connection and knowledge.</p>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+        <a href="https://t.me/"><i class="fab fa-telegram"></i></a>
+        <a href="https://www.linkedin.com/"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+
+    <!-- MENU -->
+    <div class="footer-section">
+      <h3>MENU</h3>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- INFORMATION -->
+    <div class="footer-section">
+      <h3>INFORMATION</h3>
+      <ul>
+        <li><a href="#Certification">Certification</a></li>
+        <li><a href="#team">Our Team</a></li>
+      </ul>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="footer-section">
+      <h3>CONTACT</h3>
+      <ul>
+        <li><strong>Email:</strong> <a>trainupcommunity@gmail.com</a></li>
+        <li><strong>Phone:</strong> +213 63336641</li>
+      </ul>
+    </div>
+
+  </div>
+</footer>
+
 </body>
-</html>
+
+

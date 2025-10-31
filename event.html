@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrainUp | Event</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dash.css" />
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="dashboard.html">Home</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="#">Events</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#"><img src="img/Search.png" alt="Search" class="bar"></a></li>
+        <li>|</li>
+        <li><a href="panier.html"><img src="img/Group 68.png" alt="Cart" class="bar"></a></li>
+        <li><a href="#"><img src="img/Doorbell.png" alt="Notifications" class="bar"></a></li>
+        <li><a href="#"><img src="img/User.png" alt="User" class="bar"></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <button>All</button>
+      <button>Upcoming</button>
+      <button class="active">Online</button>
+      <button>Onsite</button>
+    </div>
+
+    <!-- Event Section -->
+    <div class="event-container">
+      <h2>Events</h2>
+      <div class="event-card">
+        <h3>Workshop: <span>Graphic Design</span></h3>
+        <p>
+          Learn the fundamentals of graphic design, including color theory,
+          typography, and layout. Create your own visual projects using
+          professional tools and get hands-on experience in design principles.
+        </p>
+
+        <h4>Modules</h4>
+        <div class="modules">
+
+          <label class="module">
+            <input type="radio" name="accordion" />
+            <div class="header">
+              <span> Introduction to Graphic Design</span>
+              <span class="icon"></span>
+            </div>
+            <div class="content">
+              <p>Learn the core concepts of visual communication, including color, typography, and composition — the foundation of every great design.</p>
+            </div>
+          </label>
+
+          <label class="module">
+            <input type="radio" name="accordion" />
+            <div class="header">
+              <span>Design Tools</span>
+              <span class="icon"></span>
+            </div>
+            <div class="content">
+              <p>Master professional design software like Adobe Photoshop, Illustrator, and Canva to create stunning visuals and layouts.</p>
+            </div>
+          </label>
+
+          <label class="module">
+            <input type="radio" name="accordion" />
+            <div class="header">
+              <span> Branding & Visual Identity</span>
+              <span class="icon"></span>
+            </div>
+            <div class="content">
+              <p>Understand how to design logos, choose brand colors, and build consistent visual identities for real-world projects.</p>
+            </div>
+          </label>
+          
+          <label class="module">
+            <input type="radio" name="accordion" />
+            <div class="header">
+              <span> Practical Projects</span>
+              <span class="icon"></span>
+            </div>
+            <div class="content">
+              <p>Work on real design challenges — posters, social media graphics, and logos — to build a strong, creative portfolio.</p>
+            </div>
+          </label>
+
+        </div>
+
+        <div class="info-grid">
+          <div><strong>Status:</strong><span class="tag">open</span></div>
+          <div><strong>Type:</strong><span class="tag">online</span></div>
+          <div><strong>Duration:</strong><span class="tag">5 hours</span></div>
+          <div><strong>Level:</strong><span class="tag">Beginner</span></div>
+        </div>
+
+        <div class="coach-card">
+          <h5>Coaches</h5>
+          <div class="coach">
+            <div class="avatar"></div>
+            <div>
+              <p class="name">Feriel Meneour</p>
+              <p class="role">Design Trainer</p>
+            </div>
+          </div>
+        </div>
+
+        <label for="popup" class="register-btn">Register</label>
+<input type="checkbox" id="popup">
+
+<div class="popup">
+  <div class="popup-content">
+    <img src="7e58b7be-4bd0-47a8-8e58-f6f922f72815.png" alt="Event QR Code">
+    <p>scan this code at the event entrance</p>
+    <label for="popup" class="close-btn">Close</label>
+  </div>
+</div>
+
+      </div>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,209 @@
+
+
+/* === Shared Glassy Box Style === */
+.box {
+  border: 2px solid #00bfff;
+  border-radius: 15px;
+  background: rgba(0, 30, 70, 0.4);
+  box-shadow: 0 0 20px #00bfff40;
+  backdrop-filter: blur(10px);
+  padding: 25px;
+}
+
+/* === Shared Button Style === */
+.button {
+  display: block;
+  width: 90%;
+  padding: 12px;
+  margin: 20px auto 0;
+  background: #00bfff;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: 0.3s;
+  text-align: center;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: #00e5ff;
+  transform: scale(1.03);
+}
+
+/* =========================================================
+   🛒 CART PAGE
+========================================================= */
+.cart {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 85%;
+  padding: 30px;
+  margin: 120px auto 60px;
+  gap: 70px;
+}
+
+/* LEFT BOX */
+.cart-items {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-items h2 {
+  color: #00bfff;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+  flex-grow: 1;
+}
+
+th, td {
+  padding: 15px;
+  text-align: left;
+}
+
+th {
+  color: #00e5ff;
+  border-bottom: 2px solid #00bfff;
+}
+
+td {
+  border-bottom: 1px solid #00bfff40;
+}
+
+.delete img {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+/* RIGHT BOX */
+.summary {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.summary h3 {
+  color: #00e5ff;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.summary p,
+.summary h4 {
+  text-align: right;
+  margin: 5px 0;
+}
+
+.summary hr {
+  border: none;
+  border-top: 1px solid #00bfff50;
+  margin: 15px 0;
+}
+
+/* =========================================================
+   💳 PAYMENT PAGE
+========================================================= */
+.payment-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  width: 85%;
+  margin: 50px auto;
+  gap: 60px;
+}
+
+.payment-info,
+.order-summary {
+  flex: 1;
+}
+
+.payment-info h3,
+.order-summary h3 {
+  color: #00e5ff;
+  margin-bottom: 20px;
+}
+
+.payment-info input {
+  width: 95%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 2px solid #00bfff;
+  border-radius: 10px;
+  background: transparent;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+}
+
+.payment-info input:focus {
+  border-color: #00e5ff;
+  box-shadow: 0 0 10px #00e5ff50;
+}
+
+/* === Order Summary === */
+.order-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.order-item img {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  background: #ccc;
+  margin-right: 10px;
+}
+
+.order-item-details {
+  flex: 1;
+}
+
+.total-line {
+  border-top: 1px solid #00bfff50;
+  margin: 15px 0;
+}
+
+.total {
+  text-align: right;
+  color: #ffb347;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+/* === Payment methods === */
+.payment-method {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid #00bfff;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.payment-method:hover {
+  border-color: #00e5ff;
+  box-shadow: 0 0 10px #00e5ff50;
+}
+
+.payment-method input {
+  accent-color: #00bfff;
+}

@@ -1,0 +1,369 @@
+
+/* =========================================================
+   🧭 DASHBOARD CONTAINER (Shared)
+========================================================= */
+.dashboard-container {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 40px;
+  width: 85%;
+  margin: 60px auto;
+}
+
+/* =========================================================
+   🧱 SIDEBAR (Shared)
+========================================================= */
+.sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 30, 70, 0.4);
+  border: 2px solid #00bfff;
+  border-radius: 15px;
+  box-shadow: 0 0 25px #00bfff40;
+  backdrop-filter: blur(12px);
+  padding: 20px;
+  min-width: 220px;
+}
+
+.sidebar button {
+  background: transparent;
+  color: white;
+  border: 2px solid #00bfff;
+  border-radius: 10px;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s;
+}
+
+.sidebar button:hover {
+  background: #00bfff40;
+}
+
+.sidebar button.active {
+  background: #00e5ff;
+  color: #001e46;
+  font-weight: bold;
+}
+
+/* =========================================================
+   📊 DASHBOARD CONTENT (For dashboard.html)
+========================================================= */
+.dashboard-content {
+  flex: 3;
+  background: rgba(0, 30, 70, 0.4);
+  border: 2px solid #00bfff;
+  border-radius: 15px;
+  box-shadow: 0 0 25px #00bfff40;
+  backdrop-filter: blur(12px);
+  padding: 25px 40px;
+}
+
+.dashboard-content h2 {
+  color: #00e5ff;
+  font-size: 1.8rem;
+  margin-bottom: 40px;
+}
+
+/* Stats boxes */
+.stats {
+  display: flex;
+  justify-content: space-around;
+  gap: 40px;
+}
+
+.stat-box {
+  flex: 1;
+  text-align: center;
+  border: 2px solid #00bfff;
+  border-radius: 15px;
+  background: rgba(0, 50, 100, 0.3);
+  box-shadow: 0 0 20px #00bfff30;
+  padding: 30px 15px;
+  transition: 0.3s;
+}
+
+.stat-box:hover {
+  box-shadow: 0 0 30px #00e5ff80;
+  transform: scale(1.05);
+}
+
+.icon-box {
+  width: 90px;
+  height: 90px;
+  border: 2px solid #00e0ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 10px auto;
+  box-shadow: 0 0 10px #00e0ff, 0 0 20px #00e0ff;
+}
+
+.icon-box img {
+  width: 33px;
+  height: 33px;
+}
+
+.stat-box h3 {
+  font-size: 2rem;
+  color: #fff;
+  margin: 5px 0;
+}
+
+.stat-box p {
+  color: #00e5ff;
+  font-weight: 500;
+}
+
+/* =========================================================
+   🎟️ EVENT SECTION (For event.html)
+========================================================= */
+.event-container {
+  flex: 3;
+  background: linear-gradient(180deg, rgba(0, 217, 255, 0.15) 0%, rgba(0, 217, 255, 0.05) 100%);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 0 25px rgba(0, 217, 255, 0.2);
+}
+
+.event-container h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: #00e5ff;
+}
+
+/* =========================================================
+   🔽 COLLAPSIBLE MODULES (Pure CSS accordion)
+========================================================= */
+.modules {
+  width: 95%;
+  margin: 30px 0;
+  font-family: Poppins, sans-serif;
+  color: #fff;
+}
+
+.module {
+  width: 100%;
+  display: block;
+  background: linear-gradient(135deg, #00bfff, #00b8ff);
+  border-radius: 15px;
+  margin-bottom: 15px;
+  padding: 10px 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 184, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.module:hover {
+  transform: translateY(-2px);
+}
+
+/* Hide radio input */
+.module input {
+  display: none;
+}
+
+/* Header */
+.module .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+/* Plus/minus icon */
+.module .icon::after {
+  content: "+";
+  font-size: 1.4rem;
+  transition: transform 0.3s ease, content 0.3s ease;
+}
+
+/* Content */
+.module .content {
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  padding-top: 0;
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+/* Checked (open) */
+.module input:checked ~ .header .icon::after {
+  content: "–";
+  transform: rotate(180deg);
+}
+
+.module input:checked ~ .content {
+  max-height: 200px;
+  padding-top: 10px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   ℹ️ INFO GRID & COACH CARD
+========================================================= */
+.info-grid {
+  gap: 8px;
+  margin-top: 25px;
+  align-items: center;
+  font-size: 0.85rem;
+  padding: 8px 10px;
+  background: rgba(0, 217, 255, 0.08);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  border-radius: 8px;
+}
+
+.info-grid div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.tag {
+  background: rgba(0, 217, 255, 0.15);
+  color: #00e5ff;
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+/* Coach */
+.coach-card {
+  background: rgba(0, 217, 255, 0.08);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+.coach-card h5 {
+  font-size: 0.95rem;
+  color: #00e5ff;
+  margin-bottom: 10px;
+}
+
+.coach {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,217,255,0.5) 0%, rgba(0,217,255,0.1) 100%);
+  border: 1px solid rgba(0, 217, 255, 0.4);
+}
+
+.name {
+  margin: 0;
+  font-weight: 600;
+}
+
+.role {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #a7eaff;
+}
+
+/* =========================================================
+   🪄 REGISTER BUTTON & POPUP (Checkbox trick)
+========================================================= */
+.register-btn {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  background: #00d9ff;
+  border: none;
+  border-radius: 25px;
+  padding: 12px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-top: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.register-btn:hover {
+  background: #00bce0;
+  box-shadow: 0 0 15px #00d9ff;
+}
+
+/* Hidden checkbox for popup */
+#popup {
+  display: none;
+}
+
+/* Popup overlay */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 20, 40, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 999;
+}
+
+/* Show popup when checked */
+#popup:checked + .popup {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Popup content */
+.popup-content {
+  background: linear-gradient(135deg, #002b60, #001a40);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  width: 250px;
+  box-shadow: 0 0 25px rgba(0, 217, 255, 0.4);
+  color: #fff;
+}
+
+.popup-content img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.popup-content p {
+  margin: 10px 0;
+  font-weight: 600;
+}
+
+/* Close button */
+.close-btn {
+  display: inline-block;
+  background: #00d9ff;
+  color: #ffffff;
+  border-radius: 20px;
+  padding: 8px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.close-btn:hover {
+  background: #00bce0;
+}
