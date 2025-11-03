@@ -90,7 +90,7 @@ nav ul li button:hover {
 
 
 /* =========================================================
-   🚀 HERO SECTION (#part1)
+    HERO SECTION (#part1)
 ========================================================= */
 #part1 {
   display: flex;
@@ -266,7 +266,7 @@ background: rgba(255, 255, 255, 0.08); border: 2px solid #00d4ff; border-radius:
 /* Buttons */
 .see-more,
 .see-all {
-  background: #00d4ff;
+  background: #00ffff;
   color: #002133;
   border: none;
   border-radius: 25px;
@@ -277,17 +277,24 @@ background: rgba(255, 255, 255, 0.08); border: 2px solid #00d4ff; border-radius:
   text-decoration: none;
   display: inline-block;
 }
-.see-more { padding: 10px 20px; }
+
+.see-more {
+  padding: 10px 20px;
+}
+
 .see-all {
   padding: 12px 35px;
   font-size: 1.1em;
   box-shadow: 0 0 25px rgba(0, 212, 255, 0.4);
 }
+
 .see-more:hover,
 .see-all:hover {
-  background: #00eaff;
+  background: #00ffff;
   box-shadow: 0 0 35px rgba(0, 234, 255, 0.6);
 }
+
+
 
 /* =========================================================
    🏆 PART 4 (Certifications)

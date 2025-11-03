@@ -29,7 +29,7 @@
 }
 
 .button:hover {
-  background: #00e5ff;
+  background: #00ffff;
   transform: scale(1.03);
 }
 
@@ -96,7 +96,7 @@ td {
 }
 
 .summary h3 {
-  color: #00e5ff;
+  color: #00ffff;
   margin-bottom: 15px;
   text-align: center;
 }
@@ -132,7 +132,7 @@ td {
 
 .payment-info h3,
 .order-summary h3 {
-  color: #00e5ff;
+  color: #00ffff;
   margin-bottom: 20px;
 }
 

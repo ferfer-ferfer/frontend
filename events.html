@@ -1,76 +1,243 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Events - Graphic Design Workshop</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TrainUp | Events</title>
+  <link rel="stylesheet" href="css/dash.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+/* ===== Events Section ===== */
+.event-container {
+  flex: 3;
+  background: rgba(0, 31, 84, 0.3);
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.1);
+}
+
+.event-container h2 {
+  font-size: 24px;
+  color: #00eaff;
+  margin-bottom: 25px;
+}
+
+/* ===== Cards Grid ===== */
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 25px;
+}
+
+/* ===== Card Style ===== */
+.card {
+  background: rgba(0, 31, 84, 0.7);
+  border: 1px solid rgba(0, 255, 255, 0.5);
+  border-radius: 12px;
+  padding: 25px 15px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 191, 255, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 350px;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+}
+
+/* Center content */
+.center-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+/* Text styles */
+.card h3 {
+  color: #00ffff;
+  font-size: 18px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.card .details {
+  color: #b3e7ff;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.card .date {
+  color: #ff7b00;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ===== Button Style (like your image) ===== */
+.card a {
+  display: inline-block;
+  background: rgba(0, 191, 255, 0.46); 
+  border: 3px solid #00FFFF; 
+  border-radius: 30px;
+  padding: 10px 26px;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.25);
+}
+
+.card a:hover {
+  background: rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+  transform: scale(1.05);
+}
+
+.me {
+  color: #00ffff;
+}
+
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .dashboard-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .sidebar {
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+  }
+  .cards-container {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+  </style>
 </head>
 <body>
   <header>
     <nav>
       <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#courses-list">Courses</a></li>
-        <li><a href="#">Events</a></li>
+        <li><a href="dashboard.html">Home</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="events.html" class="me">Events</a></li>
         <li><a href="#">Community</a></li>
-        <li><a href="#"><img src="img/Search.png" class="bar" alt=""></a></li>
+        <li><a href="#"><img src="img/Search.png" alt="Search" class="bar"></a></li>
         <li>|</li>
-        <li><a href="panier.html"><img src="img/Group 68.png" class="bar" alt=""></a></li>
-        <li><a href="#"><img src="img/Doorbell.png" class="bar" alt=""></a></li>
-        <li><a href="#"><img src="img/User.png" class="bar" alt=""></a></li>
+        <li><a href="panier.html"><img src="img/Group 68.png" alt="Cart" class="bar"></a></li>
+        <li><a href="#"><img src="img/Doorbell.png" alt="Notifications" class="bar"></a></li>
+        <li><a href="#"><img src="img/User.png" alt="User" class="bar"></a></li>
       </ul>
     </nav>
   </header>
 
-  <main>
-    <aside class="sidebar">
-      <button>Courses</button>
-      <button>Dashboard</button>
-      <button>Enrolled Courses</button>
-      <button class="active">Events</button>
-      <button>Community</button>
-      <button>Settings</button>
-    </aside>
+  <main class="dashboard-container">
+    <!-- Sidebar -->
 
-    <section class="content">
-      <h2>Events</h2>
-      <div class="event-card">
-        <h3>Workshop: <span>Graphic Design</span></h3>
-        <p>
-          Learn the fundamentals of graphic design, including color theory, typography, and layout. 
-          Create your own visual projects using professional tools and get hands-on experience in design principles.
-        </p>
+    <div class="sidebar">
+  <a class="sidebar-link active">All</a>
+  <a class="sidebar-link">Upcoming</a>
+  <a  class="sidebar-link">Online</a>
+  <a class="sidebar-link">Onsite</a>
+</div>
 
-        <div class="modules">
-          <h4>Module</h4>
-          <button>Introduction to Graphic Design <span>+</span></button>
-          <button>Design Tools <span>+</span></button>
-          <button>Branding & Visual Identity <span>+</span></button>
-          <button>Practical Projects <span>+</span></button>
-        </div>
 
-        <div class="details">
-          <div><strong>Status:</strong> <span class="status">Open</span></div>
-          <div><strong>Type:</strong> <span>Online</span></div>
-          <div><strong>Duration:</strong> <span>5 hours</span></div>
-          <div><strong>Level:</strong> <span>Beginner</span></div>
-        </div>
+    <!-- Events Section -->
+    <div class="event-container">
+      <h2>Online Events</h2>
 
-        <div class="coach">
-          <h4>Coaches</h4>
-          <div class="coach-card">
-            <img src="https://via.placeholder.com/50" alt="coach">
-            <div>
-              <p class="name">Feriel Meneour</p>
-              <p class="role">Design Trainer</p>
-            </div>
+      <div class="cards-container">
+        <div class="card">
+          <div class="center-content">
+            <h3>Workshop: Graphic Design Basics</h3>
+            <p class="details">Online Workshop</p>
+            <p class="date">1 September 2025</p>
           </div>
+          <a href="event.html">Show more</a>
         </div>
 
-        <button class="register">Register</button>
+        <div class="card">
+          <div class="center-content">
+            <h3>Digital Skills Bootcamp</h3>
+            <p class="details">Online Workshop</p>
+            <p class="date">15 August 2025</p>
+          </div>
+          <a href="event.html">Show more</a>
+        </div>
+
+        <div class="card">
+          <div class="center-content">
+            <h3>UI/UX Masterclass Online</h3>
+            <p class="details">Online Workshop</p>
+            <p class="date">30 October 2025</p>
+          </div>
+          <a href="event.html">Show more</a>
+        </div>
+
+        <div class="card">
+          <div class="center-content">
+            <h3>Social Media Design Live</h3>
+            <p class="details">Online Workshop</p>
+            <p class="date">7 August 2025</p>
+          </div>
+          <a href="event.html">Show more</a>
+        </div>
+
+        <div class="card">
+          <div class="center-content">
+            <h3>Workshop: Graphic Design Basics</h3>
+            <p class="details">Online Workshop</p>
+            <p class="date">8 November 2025</p>
+          </div>
+          <a href="event.html">Show more</a>
+        </div>
+
+        <div class="card">
+          <div class="center-content">
+            <h3>Intro to HTML & CSS</h3>
+            <p class="details">Online Workshop</p>
+            <p class="date">7 December 2025</p>
+          </div>
+          <a href="event.html">Show more</a>
+        </div>
+
+        <div class="card">
+          <div class="center-content">
+            <h3>3D Design for Beginners</h3>
+            <p class="details">Online Workshop</p>
+            <p class="date">3 June 2026</p>
+          </div>
+          <a href="event.html">Show more</a>
+        </div>
+
+        <div class="card">
+          <div class="center-content">
+            <h3>Design Thinking Workshop</h3>
+            <p class="details">Online Workshop</p>
+            <p class="date">6 August 2026</p>
+          </div>
+          <a href="event.html">Show more</a>
+        </div>
+
+        <div class="card">
+          <div class="center-content">
+            <h3>Freelancing in the Digital Era</h3>
+            <p class="details">Online Workshop</p>
+            <p class="date">3 October 2026</p>
+          </div>
+          <a href="event.html">Show more</a>
+        </div>
       </div>
-    </section>
+    </div>
   </main>
 </body>
 </html>

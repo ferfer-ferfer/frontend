@@ -1,176 +1,338 @@
 <!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="Utf-8">
-        <meta name="viewport">
-        <title>course</title>
-        <link rel="stylesheet" href="css/style.css">
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dash.css" />
+  <style>
+
+.course-details {
+  background: transparent;
+  color: #fff;
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Title */
+.course-details > h2 {
+  font-weight: 700;
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+  color: #00ffff;
+}
+
+/* === COURSE HEADER (image + price box side by side) === */
+.course-header {
+  display: flex;
+  align-items: stretch; /* Make both elements same height */
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 25px;
+}
+
+/* Image */
+.course-image {
+  flex: 1; /* Smaller width */
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+  width: 100%;
+  height: auto;
+  max-height: 280px; /* Controls height */
+}
+
+/* Price box */
+.price-box {
+  flex: 1.6; /* Make it wider than the image */
+  border-radius: 22px;
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+  color: #fff;
+}
+
+.price-box h3 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 15px;
+}
+
+.price-box span {
+  color: #ffae42; /* bright orange */
+  font-weight: 700;
+  float: right; /* pushes the span text to the right */
+}
+
+.price-box p {
+  display: flex;
+  justify-content: space-between; /* keeps text left, span right */
+  align-items: center;
+  margin: 5px 0;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.add-to-cart {
+  background: linear-gradient(90deg, #00ffff, #00c4ff);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  padding: 12px 50px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: 0.3s;
+}
+
+.add-to-cart:hover {
+  background: linear-gradient(90deg, #00e5e5, #00bfff);
+  transform: scale(1.05);
+}
+
+.last-updated {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e0faff;
+}
+
+.certificate {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  margin-top: 5px;
+}
+
+/* === COURSE STATS (horizontal row under header) === */
+.course-stats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 25px 0 35px;
+  text-align: center; 
+  gap: 50px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column; /* Stack vertically */
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Space between image and text */
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.stat img {
+  width: 50px;
+  height: 50px;
+  padding: 8px;
+  border-radius: 14px;
+  border: 2px solid rgba(0, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+}
+
+.stat p {
+  margin: 0;
+  color: #e0faff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+
+/* === DESCRIPTION BOX === */
+.description {
+  padding: 20px;
+  border-radius: 14px;
+  margin-bottom: 35px;
+}
+
+.description h3 {
+  color: #00ffff;
+  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.description p {
+  background: rgba(255, 255, 255, 0.08); /* slightly brighter for contrast */
+  border: 1.5px solid rgba(0, 255, 255, 0.5);
+  font-size: 0.95rem;
+  color: #ccefff;
+  line-height: 1.6;
+  padding: 20px 25px;          /* ⬅️ makes the background larger */
+  border-radius: 12px;         /* soft corners */
+  margin-top: 10px;            /* space from the title */
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.15); /* soft glow */
+}
+
+
+/* === ACCORDION === */
+.concept-section h3 {
+  color: #fff;
+  margin-bottom: 18px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.concept-section h3 span {
+  color: #00ffff;
+}
+
+
+
+
+
+  </style>
 </head>
 <body>
   <header>
     <nav>
       <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#courses-list">Courses</a></li>
-        <li><a href="aboutas.html">About Us</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="login.html" class="button">Sign In</a></li>
+        <li><a href="dashboard.html">Home</a></li>
+        <li><a class="me" href="course.html">Courses</a></li>
+        <li><a href="events.html">Events</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#"><img src="img/Search.png" class="bar" alt="search" /></a></li>
+        <li>|</li>
+        <li><a href="panier.html"><img src="img/Group 68.png" class="bar" alt="cart" /></a></li>
+        <li><a href="#"><img src="img/Doorbell.png" class="bar" alt="notif" /></a></li>
+        <li><a href="#"><img src="img/User.png" class="bar" alt="user" /></a></li>
       </ul>
     </nav>
   </header>
- <section class="part1">
-    <div> 
-            <h2> After Effect</h2>
-             <img src="img/PHOTO1.jpg"alt ="Z=WEBSITE PHOTO "width ="100 PX"></div>
-             <div>
-                <h2>30000DA</h2>
-                <button>
-                    purshase
-                </button>
-                <div><h3>Lastn update</h3> 
-                    <h3> 3 october 2025</h3>
-                </div>
-                <div>
-                    <h3> Certification</h3>
-                    <h3> Professional Certification</h3>
-                </div>
 
-             </div>
-    </setion ><hr>
-    <section>
-        <h2> Description</h2>
-        <p> Welcome to a course designed especially for beginners to learn motion graphics and video editing with After Effects. This is the world’s most widely used program for creating creative videos, visual effects, and animations that you see every day in ads and movies. What makes this course special is its balance of clear explanations and hands-on practice, giving anyone a simple and structured way to enter the field.</p>
-    </section>
-    <section>
-        <h2> Content</h2>
-        <div>
-            <h2> Introduction</h2>
-            <ul>
-                <li>INTRO</li>
-                  <li>WHY Affter Effect</li>  
-                    <li>DOWNLOAD PROGRAM</li>
-                    
-            </ul>
-        </div>
-        <div>
-        <h2>Basics of After Effect</h2>
-         <ul>
-                <li>INTERFACE</li>
-                  <li>SHORTCUTS</li>  
-                  <li>COLOR CORRECTION</li>  
-                    <li>FONTS & TYPOGRAPHY</li>
-                    
-            </ul>
-        </div>
-        <div>
-        <h2>Start learning</h2>
-         <ul>
-                <li>TRANSFORM & KEYFRAMES</li>
-                  <li>TEXT ANIMATION</li>  
-                  <li>HOW TO CUT</li>  
-                    <li>EFFECTS & PRESETS</li>
-            
-                    <li>REMOVE BACKGROUND & MASKING</li>
-                    <li>
- DESIGN & COMPOSITION</li>
-                    <li>TRANSITIONS</li>
-                    <li>
-  3D CAMERA</li>
-            </ul>
-        </div>
-        <div>
-        <h2>Start learning</h2>
-         <ul>
-                <li>TRANSFORM & KEYFRAMES</li>
-                  <li>TEXT ANIMATION</li>  
-                  <li>HOW TO CUT</li>  
-                    <li>EFFECTS & PRESETS</li>
-            
-                    <li>REMOVE BACKGROUND & MASKING</li>
-                    <li>
- DESIGN & COMPOSITION</li>
-                    <li>TRANSITIONS</li>
-                    <li>
- 3D CAMERA</li>
-            </ul>
-        </div>
-        <div>
-        <h2>Start learning</h2>
-         <ul>
-                <li>TRANSFORM & KEYFRAMES</li>
-                  <li>TEXT ANIMATION</li>  
-                  <li>HOW TO CUT</li>  
-                    <li>EFFECTS & PRESETS</li>
-            
-                    <li>REMOVE BACKGROUND & MASKING</li>
-                    <li>
- DESIGN & COMPOSITION</li>
-                    <li>TRANSITIONS</li>
-                    <li>
- 3D CAMERA</li>
-            </ul>
-        </div>
-           <div>
-        <h2>Exercises</h2>
-         <ul>
-                <li>Exercise 1</li>
-                  <li>Exercise 3</li>  
-                  <li>Exercise 4</li>  
-                    <li>Exercise 5</li>
-            
-                    <li>Exercise 6</li>
-                    <li>
- Exercise 7</li>
-                    <li>Exercise 8</li>
-                    <li>
- Exercise 9</li>
-            </ul>
-        </div>
-    </section><hr>
-  <footer>
-  <div class="footer-container">
-
-    <!-- LOGO & SOCIAL -->
-    <div class="footer-section logo-section">
-      <img src="img/logo.png" alt="TrainUp Logo" class="footer-logo">
-      <p>Empowering learners through connection and knowledge.</p>
-      <div class="social-icons">
-        <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
-        <a href="https://t.me/"><i class="fab fa-telegram"></i></a>
-        <a href="https://www.linkedin.com/"><i class="fab fa-linkedin"></i></a>
-      </div>
+  <main class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <a href="courses.html" class="sidebar-link active">Courses</a>
+      <a href="dashboard.html" class="sidebar-link">Dashboard</a>
+      <a href="enrolled-courses.html" class="sidebar-link">Enrolled Courses</a>
+      <a href="events.html" class="sidebar-link">Events</a>
+      <a href="community.html" class="sidebar-link">Community</a>
+      <a href="settings.html" class="sidebar-link">Settings</a>
     </div>
 
-    <!-- MENU -->
-    <div class="footer-section">
-      <h3>MENU</h3>
-      <ul>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="courses.html">Courses</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
+    <!-- Dashboard Content -->
+    <section class="dashboard-content">
+<div class="course-details">
+  <h2>Digital Marketing</h2>
 
-    <!-- INFORMATION -->
-    <div class="footer-section">
-      <h3>INFORMATION</h3>
-      <ul>
-        <li><a href="#Certification">Certification</a></li>
-        <li><a href="#team">Our Team</a></li>
-      </ul>
-    </div>
+  <div class="course-header">
+    <img
+      src="img/photo_2025-10-27_12-18-51.jpg"
+      alt="Digital Marketing"
+      class="course-image"
+    />
 
-    <!-- CONTACT -->
-    <div class="footer-section">
-      <h3>CONTACT</h3>
-      <ul>
-        <li><strong>Email:</strong> <a>trainupcommunity@gmail.com</a></li>
-        <li><strong>Phone:</strong> +213 63336641</li>
-      </ul>
+    <div class="price-box">
+      <h3>80000 DA</h3>
+      <button class="add-to-cart">Add to Cart</button>
+      <p class="last-updated">
+        Last updated <span>2 November 2025</span>
+      </p>
+      <p class="certificate">Certaficate <span>Certificate of completion</span> </p>
     </div>
-
   </div>
-</footer>
-       
-        </body>
+
+  <div class="course-stats">
+    <div class="stat">
+      <img src="img/Alarm Add.png" alt="" />
+      <p>5 Weeks of Study</p>
+    </div>
+    <div class="stat">
+      <img src="img/Users.png" alt="" />
+      <p>Online Course</p>
+    </div>
+    <div class="stat">
+      <img src="img/Laptop.png" alt="" />
+      <p>20 in the group</p>
+    </div>
+  </div>
+
+  <div class="description">
+    <h3>Description</h3>
+    
+    <p>
+      Learn the fundamentals of visual design in this 5-week live program on Zoom.
+      Throughout the course, you'll explore the basics of graphic design, including
+      color theory, typography, layout, and creative tools — guided step-by-step by
+      expert instructors. Perfect for beginners who want to build strong design
+      skills and start creating professional projects.
+    </p>
+  </div>
+
+ <div class="concept-section">
+  <h3>Concept of <span>Graphic Design</span></h3>
+
+  <label class="module">
+    <input type="radio" name="accordion"  />
+    <div class="header">
+      <span>INTRODUCTION</span>
+      <span class="icon"></span>
+    </div>
+    <div class="content">
+      <p>Overview of digital marketing fundamentals and its importance in modern business.</p>
+    </div>
+  </label>
+
+  <label class="module">
+    <input type="radio" name="accordion" />
+    <div class="header">
+      <span>BASIC OF GRAPHIC DESIGN</span>
+      <span class="icon"></span>
+    </div>
+    <div class="content">
+      <p>Learn about shapes, colors, and balance in digital design layouts.</p>
+    </div>
+  </label>
+
+  <label class="module">
+    <input type="radio" name="accordion" />
+    <div class="header">
+      <span>START LEARNING</span>
+      <span class="icon"></span>
+    </div>
+    <div class="content">
+      <p>Practice key tools and software for creating modern designs and campaigns.</p>
+    </div>
+  </label>
+
+  <label class="module">
+    <input type="radio" name="accordion" />
+    <div class="header">
+      <span>EXERCISES</span>
+      <span class="icon"></span>
+    </div>
+    <div class="content">
+      <p>Hands-on design challenges to apply your newly learned concepts.</p>
+    </div>
+  </label>
+
+  <label class="module">
+    <input type="radio" name="accordion" />
+    <div class="header">
+      <span>YOUR FIRST PROJECT</span>
+      <span class="icon"></span>
+    </div>
+    <div class="content">
+      <p>Create your first real-world design project under instructor guidance.</p>
+    </div>
+  </label>
+</div>
+
+</div>
+
+    </section>
+  </main>
+</body>
+</html>

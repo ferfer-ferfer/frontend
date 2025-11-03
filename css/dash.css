@@ -18,16 +18,19 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: rgba(0, 30, 70, 0.4);
+  background: #001e4666;
   border: 2px solid #00bfff;
   border-radius: 15px;
   box-shadow: 0 0 25px #00bfff40;
-  backdrop-filter: blur(12px);
   padding: 20px;
   min-width: 220px;
+  height: fit-content;
 }
 
-.sidebar button {
+
+
+.sidebar-link {
+  display: block;
   background: transparent;
   color: white;
   border: 2px solid #00bfff;
@@ -37,18 +40,20 @@
   text-align: left;
   cursor: pointer;
   font-size: 1rem;
+  text-decoration: none; /* remove underline */
   transition: 0.3s;
 }
 
-.sidebar button:hover {
+.sidebar-link:hover {
   background: #00bfff40;
 }
 
-.sidebar button.active {
+.sidebar-link.active {
   background: #00e5ff;
   color: #001e46;
   font-weight: bold;
 }
+
 
 /* =========================================================
    📊 DASHBOARD CONTENT (For dashboard.html)
