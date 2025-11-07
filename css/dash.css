@@ -1,6 +1,6 @@
 
 /* =========================================================
-   🧭 DASHBOARD CONTAINER (Shared)
+    DASHBOARD CONTAINER (Shared)
 ========================================================= */
 .dashboard-container {
   display: flex;
@@ -12,7 +12,7 @@
 }
 
 /* =========================================================
-   🧱 SIDEBAR (Shared)
+    SIDEBAR (Shared)
 ========================================================= */
 .sidebar {
   flex: 1;
@@ -40,7 +40,7 @@
   text-align: left;
   cursor: pointer;
   font-size: 1rem;
-  text-decoration: none; /* remove underline */
+  text-decoration: none; 
   transition: 0.3s;
 }
 
@@ -56,7 +56,7 @@
 
 
 /* =========================================================
-   📊 DASHBOARD CONTENT (For dashboard.html)
+    DASHBOARD CONTENT (For dashboard.html)
 ========================================================= */
 .dashboard-content {
   flex: 3;
@@ -126,7 +126,7 @@
 }
 
 /* =========================================================
-   🎟️ EVENT SECTION (For event.html)
+    EVENT SECTION (For event.html)
 ========================================================= */
 .event-container {
   flex: 3;
@@ -144,7 +144,7 @@
 }
 
 /* =========================================================
-   🔽 COLLAPSIBLE MODULES (Pure CSS accordion)
+    COLLAPSIBLE MODULES (Pure CSS accordion)
 ========================================================= */
 .modules {
   width: 95%;
@@ -203,7 +203,6 @@
 /* Checked (open) */
 .module input:checked ~ .header .icon::after {
   content: "–";
-  transform: rotate(180deg);
 }
 
 .module input:checked ~ .content {
@@ -214,7 +213,7 @@
 }
 
 /* =========================================================
-   ℹ️ INFO GRID & COACH CARD
+    INFO GRID & COACH CARD
 ========================================================= */
 .info-grid {
   gap: 8px;
@@ -283,7 +282,7 @@
 }
 
 /* =========================================================
-   🪄 REGISTER BUTTON & POPUP (Checkbox trick)
+    REGISTER BUTTON & POPUP (Checkbox trick)
 ========================================================= */
 .register-btn {
   display: inline-block;
@@ -371,4 +370,158 @@
 
 .close-btn:hover {
   background: #00bce0;
+}
+
+
+
+
+/* ====== Medium Screens (≤1024px) ====== */
+@media (max-width: 1024px) {
+  .dashboard-container {
+    width: 90%;
+    gap: 25px;
+  }
+
+  .sidebar {
+    min-width: 180px;
+    padding: 15px;
+  }
+
+  .sidebar-link {
+    font-size: 0.95rem;
+    padding: 8px 12px;
+  }
+
+  .dashboard-content,
+  .event-container {
+    padding: 20px 25px;
+  }
+
+  .stats {
+    gap: 20px;
+  }
+
+  .stat-box {
+    padding: 25px 10px;
+  }
+
+  .icon-box {
+    width: 70px;
+    height: 70px;
+  }
+
+  .icon-box img {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* ====== Tablets (≤768px) ====== */
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 12px;
+  }
+
+  .sidebar-link {
+    flex: 1 1 40%;
+    text-align: center;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+  }
+
+  .dashboard-content,
+  .event-container {
+    width: 100%;
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .stats {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .stat-box {
+    flex: 1 1 45%;
+    margin-bottom: 15px;
+  }
+}
+
+/* ====== Small Phones (≤480px) ====== */
+@media (max-width: 480px) {
+  .dashboard-container {
+    width: 90%;
+    margin: 40px auto;
+    gap: 20px;
+  }
+
+  .sidebar {
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+  }
+
+  .sidebar-link {
+    width: 85%;
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .dashboard-content,
+  .event-container {
+    padding: 15px;
+  }
+
+  .dashboard-content h2,
+  .event-container h2 {
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .stat-box {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .icon-box {
+    width: 60px;
+    height: 60px;
+  }
+
+  .icon-box img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .module .header {
+    font-size: 1rem;
+  }
+
+  .popup-content {
+    width: 220px;
+    padding: 15px;
+  }
+
+    .module {
+    padding: 6px 12px;              
+    margin-bottom: 8px;             
+    border-radius: 10px;
+  }
 }

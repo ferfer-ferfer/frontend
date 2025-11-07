@@ -3,44 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
+  <title>TrainUp | Courses</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/dash.css" />
+  <link rel="stylesheet" href="css/dash.css">
   <style>
-  
-
-
-/* === DASHBOARD CONTENT === */
-
-
-.dashboard-content h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 25px;
-  color: #fff;
-}
-
-.dashboard-content h2 span {
-  color: #00e4ff;
-}
-
-/*=== COURSES LIST === */
-
-.dashboard-content .courses-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center; /* centers all cards horizontally */
-  gap: 100px; /* space between them */
-}
-
-.dashboard-content .course-box {
-  width: 280px;
-}
-.me {
-  color: #00ffff;
-}
-
-
+    .dashboard-content h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 25px;
+      color: #fff;
+    }
+    .dashboard-content h2 span {
+      color: #00e4ff;
+    }
+    .dashboard-content .courses-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 100px;
+    }
+    .dashboard-content .course-box {
+      width: 280px;
+    }
+    .me {
+      color: #00ffff;
+    }
   </style>
 </head>
 <body>
@@ -55,94 +42,75 @@
         <li>|</li>
         <li><a href="panier.html"><img src="img/Group 68.png" class="bar" alt=""></a></li>
         <li><a href="#"><img src="img/Doorbell.png" class="bar" alt=""></a></li>
-        <li><a href="#"><img src="img/User.png" class="bar" alt=""></a></li>
+        <li><a href="profile.html"><img src="img/User.png" class="bar" alt=""></a></li>
       </ul>
     </nav>
   </header>
-
   <main class="dashboard-container">
-    <!-- Sidebar -->
-<div class="sidebar">
-  <a href="courses.html" class="sidebar-link active">Courses</a>
-  <a href="dashboard.html" class="sidebar-link">Dashboard</a>
-  <a href="enrolled-courses.html" class="sidebar-link ">Enrolled Courses</a>
-  <a href="events.html" class="sidebar-link">Events</a>
-  <a href="community.html" class="sidebar-link">Community</a>
-  <a href="settings.html" class="sidebar-link">Settings</a>
-</div>
-
-    <!-- Dashboard Content -->
+    <div class="sidebar">
+      <a href="courses.html" class="sidebar-link active">Courses</a>
+      <a href="dashboard.html" class="sidebar-link">Dashboard</a>
+      <a href="enrolled-courses.html" class="sidebar-link">Enrolled Courses</a>
+      <a href="events.html" class="sidebar-link">Events</a>
+      <a href="community.html" class="sidebar-link">Community</a>
+      <a href="settings.html" class="sidebar-link">Settings</a>
+    </div>
     <section class="dashboard-content">
-          <h2><span>Our</span> courses</h2>
-
-  <div class="categorie">
-    <button class="active">All</button>
-    <button>Web Development</button>
-    <button>UI/UX Design</button>
-    <button>Digital Marketing</button>
-    <button>Languages</button>
-  </div>
-  <div class="courses-list">
-    <!-- Course 1 -->
-    <div class="course-box">
-      <div class="img-box">
-        <img src="img/photo_2025-10-27_12-18-51.jpg" alt="Graphic Design">
+      <h2><span>Our</span> courses</h2>
+      <div class="categorie">
+        <button class="active">All</button>
+        <button>Web Development</button>
+        <button>UI/UX Design</button>
+        <button>Digital Marketing</button>
+        <button>Languages</button>
       </div>
-      <div class="course-card">
-        <h3>Graphic Design</h3>
-        <p>by feriel menouer</p>
-        <p class="price">20000DZD</p>
-        <a href="course.html" class="see-more">See more</a>
-
+      <div class="courses-list">
+        <div class="course-box">
+          <div class="img-box">
+            <img src="img/photo_2025-10-27_12-18-51.jpg" alt="Graphic Design">
+          </div>
+          <div class="course-card">
+            <h3>Graphic Design</h3>
+            <p>by feriel menouer</p>
+            <p class="price">20000DZD</p>
+            <a href="course.html" class="see-more">See more</a>
+          </div>
+        </div>
+        <div class="course-box">
+          <div class="img-box">
+            <img src="img/photo_2025-10-27_12-19-04.jpg" alt="Digital Marketing">
+          </div>
+          <div class="course-card">
+            <h3>Digital Marketing</h3>
+            <p>by yasmine belhadi</p>
+            <p class="price">5000DZD</p>
+            <a href="course.html" class="see-more">See more</a>
+          </div>
+        </div>
+        <div class="course-box">
+          <div class="img-box">
+            <img src="img/photo_2025-10-27_12-19-11.jpg" alt="Web Development">
+          </div>
+          <div class="course-card">
+            <h3>Web Development</h3>
+            <p>by adem menouer</p>
+            <p class="price">30000DZD</p>
+            <a href="course.html" class="see-more">See more</a>
+          </div>
+        </div>
+        <div class="course-box">
+          <div class="img-box">
+            <img src="img/photo_2025-10-27_12-18-51.jpg" alt="UI/UX Design">
+          </div>
+          <div class="course-card">
+            <h3>UI/UX Design</h3>
+            <p>by yassine belhadi</p>
+            <p class="price">8000DZD</p>
+            <a href="course.html" class="see-more">See more</a>
+          </div>
+        </div>
       </div>
-    </div>
-
-    <!-- Course 2 -->
-    <div class="course-box">
-      <div class="img-box">
-        <img src="img/photo_2025-10-27_12-19-04.jpg" alt="Digital Marketing">
-      </div>
-      <div class="course-card">
-        <h3>Digital Marketing</h3>
-        <p>by yasmine belhadi</p>
-        <p class="price">5000DZD</p>
-        <a href="course.html" class="see-more">See more</a>
-
-      </div>
-    </div>
-
-    <!-- Course 3 -->
-    <div class="course-box">
-      <div class="img-box">
-        <img src="img/photo_2025-10-27_12-19-11.jpg" alt="Web Development">
-      </div>
-      <div class="course-card">
-        <h3>Web Development</h3>
-        <p>by adem menouer</p>
-        <p class="price">30000DZD</p>
-        <a href="course.html" class="see-more">See more</a>
-
-      </div>
-    </div>
-
-    <!-- Course 4 -->
-    <div class="course-box">
-      <div class="img-box">
-        <img src="img/photo_2025-10-27_12-18-51.jpg" alt="UI/UX Design">
-      </div>
-      <div class="course-card">
-        <h3>UI/UX Design</h3>
-        <p>by yassine belhadi</p>
-        <p class="price">8000DZD</p>
-        <a href="course.html" class="see-more">See more</a>
-
-      </div>
-    </div>
-  </div>
-
-</section>
-
-
+    </section>
   </main>
 </body>
 </html>

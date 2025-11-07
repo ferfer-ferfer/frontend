@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-      <meta charset="Utf-8">
-      <meta name="viewport">
-      <title>about as page</title>
-      <link rel="stylesheet" href="css/style.css">
-      <style>
-        /* Section background */
-/* Section background */
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrainUp | About Us</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+/* -------------------- ASK SECTION -------------------- */
 #ask {
   color: white;
   padding: 80px 0;
@@ -17,7 +16,6 @@
   overflow: hidden;
 }
 
-/* Soft glowing circles in background */
 #ask::before,
 #ask::after {
   content: "";
@@ -39,7 +37,6 @@
   right: 10%;
 }
 
-/* Headings */
 #ask h2 {
   font-size: 28px;
   font-weight: 700;
@@ -52,7 +49,6 @@
   color: #00d5ff;
 }
 
-/* Form container */
 #ask form {
   width: 70%;
   max-width: 600px;
@@ -66,7 +62,6 @@
   position: relative;
 }
 
-/* Input fields & textarea */
 #ask input,
 #ask textarea {
   width: 90%;
@@ -92,7 +87,6 @@
   box-shadow: 0 0 8px #00d5ff;
 }
 
-/* Button */
 #ask button {
   margin-top: 20px;
   background: linear-gradient(90deg, #00bfff, #00aaff);
@@ -111,194 +105,315 @@
   box-shadow: 0 0 20px rgba(0, 200, 255, 0.9);
 }
 
+/* -------------------- TEAM SECTION -------------------- */
+#team {
+  padding: 60px 20px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+}
 
-      </style>
-  </head>
-  <body>
-      <header>
-        <nav>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="course.html">Courses</a></li>
-          <li><a href="aboutas.html">About As</a></li>
-          <li><a href="contact">contact</a></li>
-          <li><a href="login.html" class="button">Sign In</a></li>
-        </ul>
-        </nav>
-      </header>
+#team h2 {
+  font-size: 28px;
+  margin-bottom: 40px;
+  font-weight: 600;
+}
 
-   
-    <section id="part1">
-        <div class="left">
-        <h2> <span>The TrainUp</span> Journey</h2>
-        <p>
-           It started with a simple belief:  <strong>learning should never stop. </strong><br>
-            In a world that changes fast, TrainUp empowers people everywhere to learn, grow, and level up — anytime, anywhere. <br>
-             From tech to soft skills, we bring all learning in one place, guided by mentors and community.  </p>
+#team h2 span {
+  color: #00ffff;
+}
+
+.team-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  justify-items: center;
+  margin-bottom: 40px;
+}
+
+.team-card {
+  width: 230px;
+  height: 230px;
+  border: 2px solid #00ffff;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.15);
+  transition: 0.3s;
+}
+
+.team-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+}
+
+.team-card h3 {
+  font-size: 16px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.team-card p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #00ffff;
+  text-transform: capitalize;
+}
+
+.see-more button {
+  background-color: #00ffff;
+  color: #001f54;
+  font-weight: 600;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.see-more button:hover {
+  background-color: #00d5ff;
+  transform: scale(1.05);
+}
+
+/* Responsive Team */
+@media (max-width: 768px) {
+  .team-container {
+    grid-template-columns: 1fr;
+  }
+  .team-card {
+    width: 85%;
+  }
+}
+
+/* -------------------- FAQ SECTION -------------------- */
+#faq {
+  padding: 70px 20px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+}
+
+#faq h2 {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+#faq h2 span {
+  color: #00ffff;
+}
+
+.faq-table {
+  margin: 0 auto;
+  width: 80%;
+  max-width: 650px;
+  border: 2px solid #00ffff;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 25px rgba(0,255,255,0.15);
+  overflow: hidden;
+}
+
+.faq-table input[type="radio"] {
+  display: none;
+}
+
+.faq-table label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #e0f7fa;
+  transition: background 0.3s ease;
+}
+
+.faq-table label:hover {
+  background: rgba(0, 255, 255, 0.08);
+}
+
+.faq-table .answer {
+  display: none;
+  padding: 0 22px 18px;
+  color: #d9faff;
+  font-size: 15px;
+  text-align: left;
+  line-height: 1.6;
+}
+
+.faq-table input[type="radio"]:checked + label + .answer {
+  display: block;
+}
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="aboutus.html">About Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="login.html" class="button">Sign In</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ABOUT SECTIONS -->
+  <section id="part1">
+    <div class="left">
+      <h2><span>The TrainUp</span> Journey</h2>
+      <p>It started with a simple belief: <strong>learning should never stop.</strong><br>
+        TrainUp empowers people everywhere to learn, grow, and level up — anytime, anywhere.</p>
     </div>
     <div class="right">
-        <img src="img/photo_2025-10-27_12-18-51.jpg" alt="Our Story Image" width="400">
+      <img src="img/aboutas.jpg" alt="Our Story" width="400">
     </div>
-    </section>
+  </section>
 
+  <section id="part2">
+    <h2><span>Our</span> Mission</h2>
+    <p>
+      At <strong>TrainUp</strong>, our mission is simple yet powerful — to make learning accessible, engaging, and limitless.
+      <br> We believe everyone deserves the chance to grow, no matter where they are or what their background is.
+      <br> Through innovative digital courses, expert mentors, and a vibrant community, TrainUp helps learners unlock their potential, master new skills, and shape their future with confidence.
+    </p>
+  </section>
 
-  
-    <section id="part2">
-        <h2><span>Our  </span>Mission</h2>
-        <p>
-            At <strong>TrainUp</strong>, our mission is simple yet powerful — to make learning accessible, engaging, and limitless.<br>
-            We believe everyone deserves the chance to grow, no matter where they are or what their background is.<br>
-            Through innovative digital courses, expert mentors, and a vibrant community, TrainUp helps learners unlock their potential, master new skills, and shape their future with confidence.
-        </p>
+  <section id="part2">
+    <h2><span>Our</span> Values</h2>
+    <p>
+      <strong>Innovation:</strong> We continuously improve learning experiences.<br>
+      <strong>Collaboration:</strong> We grow by learning together.<br>
+      <strong>Integrity:</strong> We act with honesty and transparency.<br>
+      <strong>Growth:</strong> We empower people to grow beyond limits.
+    </p>
+    <button class="see-all" onclick="window.location.href='courses.html'">View Our Courses</button>
+  </section>
 
-    </section>
-        <hr>
-    
+  <!-- FAQ -->
+  <section id="faq">
+    <h2>Questions & <span>Help</span></h2>
+    <table class="faq-table">
+      <tr>
+        <td colspan="2">
+          <input type="radio" name="faq" id="q1">
+          <label for="q1">How can I join a course?<span>+</span></label>
+          <div class="answer">Register through our Courses page and choose your desired skill.</div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input type="radio" name="faq" id="q2">
+          <label for="q2">Is TrainUp free?<span>+</span></label>
+          <div class="answer">Some courses are free, while others require premium access.</div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input type="radio" name="faq" id="q3">
+          <label for="q3">Can I become an instructor?<span>+</span></label>
+          <div class="answer">Yes! If you have teaching skills, apply to become a mentor on TrainUp.</div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input type="radio" name="faq" id="q4">
+          <label for="q4">Do I need experience to start?<span>+</span></label>
+          <div class="answer">Not at all! We offer beginner-friendly content to help you start smoothly.</div>
+        </td>
+      </tr>
+    </table>
+  </section>
 
- 
-   <section id="part2">
-        <h2><span></span>Our </span> Values</h2>
-        <p>We are guided by principles that make learning meaningful and inspiring.</p>
-
-        <div class="value-box">
-            <img src="value1.jpg" alt="Innovation">
-            <p><strong>Innovation:</strong> We continuously improve and adapt to create a smarter learning experience.</p>
-        </div>
-
-        <div class="value-box">
-            <img src="value2.jpg" alt="Collaboration">
-            <p><strong>Collaboration:</strong> We believe great things happen when people learn together.</p>
-        </div>
-
-        <div class="value-box">
-            <img src="value3.jpg" alt="Integrity">
-            <p><strong>Integrity:</strong> We act with honesty and transparency in everything we do.</p>
-        </div>
-
-        <div class="value-box">
-            <img src="value4.jpg" alt="Growth">
-            <p><strong>Growth:</strong> We empower people to grow beyond limits — personally and professionally.</p>
-        </div>
-
-        <button class="see-all" onclick="window.location.href='courses.html'">View Our Courses</button>
-    </section>
-        <hr>8
-
-    <section id="faq">
-        <h2>FAQ</h2>
-        <h3>Our Answers</h3>
-        <table border="1" cellpadding="10">
-            <thead>
-                <tr>
-                    <th>Question</th>
-                    <th>Answer</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>How can I join a course?</td>
-                    <td>You can easily register through our Courses page and choose your desired skill.</td>
-                </tr>
-                <tr>
-                    <td>Is TrainUp free?</td>
-                    <td>Some courses are free, while others require premium access.</td>
-                </tr>
-                <tr>
-                    <td>Can I become an instructor?</td>
-                    <td>Yes! If you have teaching skills, apply to become a mentor on TrainUp.</td>
-                </tr>
-            </tbody>
-        </table>
-    </section>
-
-   
-    <section id="team">
-        <h2>Our Team</h2>
-        <div class="team-section">
-            
-            <div class="team-member">
-                <img src="feriel.jpg" alt="Menouer Feriel" width="150">
-                <h3>Menouer Feriel</h3>
-                <p>Co-Founder & Developer & Designer</p>
-                <div class="social-links">
-                    <a href="https://www.instagram.com/" target="_blank"><img src="icone.png" alt="Instagram" width="30"></a>
-                    <a href="https://www.facebook.com/" target="_blank"><img src="icone.png" alt="Facebook" width="30"></a>
-                    <a href="https://www.linkedin.com/" target="_blank"><img src="icone.png" alt="LinkedIn" width="30"></a>
-                </div>
-            </div>
-
-            <div class="team-member">
-                <img src="yassmine.jpg" alt="Belhadi Yassmine" width="150">
-                <h3>Belhadi Yassmine</h3>
-                <p>Co-Founder & Developer & Designer</p>
-                <div class="social-links">
-                    <a href="https://www.instagram.com/" target="_blank"><img src="icone.png" alt="Instagram" width="30"></a>
-                    <a href="https://www.facebook.com/" target="_blank"><img src="icone.png" alt="Facebook" width="30"></a>
-                    <a href="https://www.linkedin.com/" target="_blank"><img src="icone.png" alt="LinkedIn" width="30"></a>
-                </div>
-            </div>
-
-        </div>
-    </section>
-          <hr>
-   
-    <section id="ask">
-              <h2>Got any questions?</h2>
-        <h2><span>Feel free to contact us!</span></h2>
-        <form>
-            <input type="text" placeholder="First Name" required>
-            <input type="text" placeholder="Last Name" required>
-            <input type="email" placeholder="Email" required>
-            <input type="tel" placeholder="Phone Number">
-            <textarea placeholder="Your question..." rows="4"></textarea>
-            <button type="submit">Send the message</button>
-        </form>
-    </section>
-          
-    
- <footer>
-  <div class="footer-container">
-
-    <!-- LOGO & SOCIAL -->
-    <div class="footer-section logo-section">
-      <img src="img/logo.png" alt="TrainUp Logo" class="footer-logo">
-      <p>Empowering learners through connection and knowledge.</p>
-      <div class="social-icons">
-        <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
-        <a href="https://t.me/"><i class="fab fa-telegram"></i></a>
-        <a href="https://www.linkedin.com/"><i class="fab fa-linkedin"></i></a>
+  <!-- TEAM -->
+  <section id="team">
+    <h2><span>Our</span> Learning Team</h2>
+    <div class="team-container">
+      <div class="team-card">
+        <h3>Feriel Menouer</h3>
+        <p>Co-founder</p>
+      </div>
+      <div class="team-card">
+        <h3>Yasmine Belhadi</h3>
+        <p>Marketing Manager</p>
+      </div>
+      <div class="team-card">
+        <h3>Feriel Meneour</h3>
+        <p>HR Manager</p>
+      </div>
+      <div class="team-card">
+        <h3>Yasmine Belhadi</h3>
+        <p>Graphic Designer</p>
       </div>
     </div>
-
-    <!-- MENU -->
-    <div class="footer-section">
-      <h3>MENU</h3>
-      <ul>
-        <li><a href="home.html">Home</a></li>
-        <li><a href="courses.html">Courses</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+    <div class="see-more">
+      <button>See more</button>
     </div>
+  </section>
 
-    <!-- INFORMATION -->
-    <div class="footer-section">
-      <h3>INFORMATION</h3>
-      <ul>
-        <li><a href="#Certification">Certification</a></li>
-        <li><a href="#team">Our Team</a></li>
-      </ul>
+  <!-- CONTACT -->
+  <section id="ask">
+    <h2>Got any questions?</h2>
+    <h2><span>Feel free to contact us!</span></h2>
+    <form>
+      <input type="text" placeholder="First Name" required>
+      <input type="text" placeholder="Last Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="tel" placeholder="Phone Number">
+      <textarea placeholder="Your question..." rows="4"></textarea>
+      <button type="submit">Send the message</button>
+    </form>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div id="contact" class="footer-container">
+      <div class="footer-section logo-section">
+        <img src="img/logo.png" alt="TrainUp Logo" class="footer-logo">
+        <p>Empowering learners through connection and knowledge.</p>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+          <a href="https://t.me/"><i class="fab fa-telegram"></i></a>
+          <a href="https://www.linkedin.com/"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-section">
+        <h3>MENU</h3>
+        <ul>
+          <li><a href="home.html">Home</a></li>
+          <li><a href="courses.html">Courses</a></li>
+          <li><a href="aboutus.html">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>INFORMATION</h3>
+        <ul>
+          <li><a href="#Certification">Certification</a></li>
+          <li><a href="#team">Our Team</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>CONTACT</h3>
+        <ul>
+          <li><strong>Email:</strong> trainupcommunity@gmail.com</li>
+          <li><strong>Phone:</strong> +213 63336641</li>
+        </ul>
+      </div>
     </div>
-
-    <!-- CONTACT -->
-    <div class="footer-section">
-      <h3>CONTACT</h3>
-      <ul>
-        <li><strong>Email:</strong> <a>trainupcommunity@gmail.com</a></li>
-        <li><strong>Phone:</strong> +213 63336641</li>
-      </ul>
-    </div>
-
-  </div>
-</footer>
+  </footer>
 </body>
+</html>

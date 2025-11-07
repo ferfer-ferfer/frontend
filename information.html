@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TrainUp | Information </title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    h1 {
+      text-align: center;
+      color: #e0f7fa;
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+
+    h1 span {
+      color: #00e5ff;
+    }
+
+    .form-box {
+      width: 60%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0, 217, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 40px 50px;
+      margin: auto;
+      margin-bottom: 50px;
+    }
+
+    .form-box table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .form-box td {
+      padding: 12px 10px;
+      vertical-align: middle;
+    }
+
+    .form-box label {
+      display: block;
+      font-size: 14px;
+      color: #cce7ff;
+      margin-bottom: 6px;
+    }
+
+    .form-box input,
+    .form-box select,
+    .form-box textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #00bfff;
+      border-radius: 8px;
+      background: transparent;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: 0.3s;
+    }
+
+    .form-box input:focus,
+    .form-box select:focus,
+    .form-box textarea:focus {
+      border-color: #00e5ff;
+      box-shadow: 0 0 6px #00e5ff;
+    }
+
+    .form-box select {
+      background: transparent;
+      color: #001F54;
+      border: 1px solid #00bfff;
+      border-radius: 8px;
+      padding: 10px 12px;
+      outline: none;
+      font-size: 14px;
+      transition: 0.3s;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .form-box select option {
+      background: transparent;
+      color: #001F54;
+    }
+
+    .form-box select option:checked {
+      background: transparent;
+      color: #001F54;
+      font-weight: 600;
+    }
+
+    .photo-preview {
+      display: block;
+      margin-top: 10px;
+      max-width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #00d5ff;
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    .submit-row {
+      text-align: center;
+      padding-top: 25px;
+    }
+
+    .form-box a {
+      width: 100%;
+      padding: 12px;
+      background: #00d5ff;
+      color: #001F54;
+      font-weight: 600;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .form-box a:hover {
+      background: #00a9cc;
+      transform: scale(1.05);
+    }
+
+    /* ===== Small Phones (≤480px) ===== */
+    @media (max-width: 480px) {
+      .form-box {
+        width: 90%;
+        padding: 25px 20px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+
+      .form-box td {
+        display: block;
+        width: 100%;
+        padding: 8px 0;
+      }
+
+      .form-box label {
+        font-size: 13px;
+      }
+
+      .form-box input,
+      .form-box select,
+      .form-box textarea {
+        font-size: 13px;
+        padding: 8px 10px;
+      }
+
+      .submit-row {
+        padding-top: 15px;
+      }
+
+      .form-box a {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .photo-preview {
+        max-width: 80px;
+        height: 80px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1><span>Welcome</span> — Enter Your Information</h1>
+
+  <div class="form-box">
+    <form action="#" method="post" enctype="multipart/form-data">
+      <table>
+        <tr>
+          <td><label for="photo">Profile Photo</label></td>
+          <td>
+            <img id="photoPreview" class="photo-preview" src="" alt="">
+            <input type="file" id="photo" name="photo" accept="image/*">
+          </td>
+        </tr>
+        <tr>
+          <td><label for="firstName">First Name</label></td>
+          <td><input type="text" id="firstName" name="firstName" placeholder="Enter your first name" required></td>
+        </tr>
+        <tr>
+          <td><label for="lastName">Last Name</label></td>
+          <td><input type="text" id="lastName" name="lastName" placeholder="Enter your last name" required></td>
+        </tr>
+        <tr>
+          <td><label for="email">Email</label></td>
+          <td><input type="email" id="email" name="email" placeholder="example@mail.com" required></td>
+        </tr>
+        <tr>
+          <td><label for="password">Password</label></td>
+          <td><input type="password" id="password" name="password" placeholder="Create a password" required></td>
+        </tr>
+        <tr>
+          <td><label for="confirmPassword">Confirm Password</label></td>
+          <td><input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required></td>
+        </tr>
+        <tr>
+          <td><label for="role">Role</label></td>
+          <td>
+            <select id="role" name="role" required>
+              <option value="">-- Select Role --</option>
+              <option value="visitor">Visitor</option>
+              <option value="learner">Learner</option>
+              <option value="trainer">Trainer</option>
+              <option value="salesAssistant">Sales Assistant</option>
+              <option value="salesRepresentative">Sales Representative</option>
+              <option value="trainingDirector">Training Director</option>
+              <option value="marketingManager">Marketing Manager</option>
+              <option value="administrator">Administrator</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="phone">Phone</label></td>
+          <td><input type="tel" id="phone" name="phone" placeholder="Your phone number"></td>
+        </tr>
+        <tr>
+          <td><label for="address">Address</label></td>
+          <td><textarea id="address" name="address" rows="3" placeholder="Enter your address"></textarea></td>
+        </tr>
+        <tr>
+          <td><label for="bio">Enter your bio</label></td>
+          <td><textarea id="bio" name="bio" rows="4" placeholder="Write a short bio about yourself..."></textarea></td>
+        </tr>
+        <tr>
+          <td colspan="2" class="submit-row">
+            <a href="dashboard.html" class="button">Sign Up</a>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</body>
+</html>
